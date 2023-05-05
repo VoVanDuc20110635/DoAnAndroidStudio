@@ -42,6 +42,11 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return productList.size();
     }
 
+    public void updateList(List<Product> filteredList) {
+        productList = filteredList;
+        notifyDataSetChanged();
+    }
+
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         public TextView productNameTextView;
         public TextView priceTextView;

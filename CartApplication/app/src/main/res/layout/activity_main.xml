@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/smokecofe"
+    android:scaleType="centerCrop"
+    tools:context=".Activity.MainActivity">
 
     <TextView
         android:id="@+id/textView"
+        android:textColor="#603913"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nhập id"
@@ -32,9 +35,11 @@
         android:layout_width="239dp"
         android:layout_height="59dp"
         android:layout_marginTop="48dp"
+        android:background="#B0C33766"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ID"
+        android:textColor="#603913"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +48,7 @@
         android:id="@+id/ip"
         android:layout_width="228dp"
         android:layout_height="68dp"
+        android:textColor="#603913"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ip"

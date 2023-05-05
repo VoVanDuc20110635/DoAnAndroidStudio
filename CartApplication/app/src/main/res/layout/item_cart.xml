@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#95835049"
     android:orientation="horizontal"
     android:padding="16dp">
 
@@ -14,9 +15,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="16dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/product_name"
@@ -46,9 +47,9 @@
         android:id="@+id/buttonRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="#750D05"
         android:src="@drawable/delete_images"
-        android:text="Xóa"
+        android:text="BUY"
         android:textColor="#F43652" />
 
 </LinearLayout>
