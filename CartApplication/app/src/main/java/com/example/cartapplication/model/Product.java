@@ -1,6 +1,8 @@
 package com.example.cartapplication.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int id;
     private String productName;
     private int quantity;
@@ -9,11 +11,11 @@ public class Product {
     //private Flavor flavor;
     private String description;
     private String image;
-    //private Date createdDate;
+
     private int status;
     private int discount;
     //private Category category;
-
+    //private Date createdDate;
     public int getId() {
         return id;
     }

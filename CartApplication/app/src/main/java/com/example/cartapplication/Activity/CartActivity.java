@@ -55,7 +55,7 @@ public class CartActivity extends AppCompatActivity {
         // Khởi tạo RecyclerView và ProductAdapter
         recyclerView = findViewById(R.id.listViewCartItems);
         productList = new ArrayList<>();
-        productAdapter = new CartProductAdapter(productList);
+        productAdapter = new CartProductAdapter(productList,this);
 
         // Thiết lập LayoutManager và Adapter cho RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
