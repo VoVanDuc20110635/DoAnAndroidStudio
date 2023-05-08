@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private Button button;
 
+
     public static boolean isNumber(String str) {
         try {
             Long.parseLong(str);

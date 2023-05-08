@@ -9,6 +9,18 @@
     android:padding="16dp">
 
 
+    <ImageView
+        android:id="@+id/closepopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:srcCompat="@android:drawable/btn_dialog" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +33,7 @@
 
         android:orientation="vertical"
         android:padding="16dp">
+
 
         <!-- Header -->
         <LinearLayout
@@ -45,6 +58,12 @@
                     android:textColor="#603913"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_launcher_background" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,12 +97,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_launcher_background" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -94,7 +107,7 @@
             <EditText
                 android:id="@+id/textSearch"
                 android:layout_width="wrap_content"
-                android:layout_height="51dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#92A8A371"
                 android:ems="10"
@@ -104,10 +117,20 @@
 
             <ImageView
                 android:id="@+id/searchbutton"
-                android:layout_width="51dp"
+                android:layout_width="25dp"
                 android:layout_height="51dp"
                 android:layout_weight="1"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/searchbutton" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="25dp"
+                android:layout_height="51dp"
+                android:layout_weight="1"
+                android:contentDescription="Nút chức năng"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -129,4 +152,15 @@
         android:layout_marginBottom="0dp"
         android:elevation="10dp"
         app:srcCompat="@drawable/cartbutton" />
+
+    <ImageView
+        android:id="@+id/popupcate"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="Button"
+        app:srcCompat="@drawable/listicon"/>
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.cartapplication.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Product implements Serializable {
     private int id;
@@ -8,14 +9,18 @@ public class Product implements Serializable {
     private int quantity;
     private int sold;
     private double price;
-    //private Flavor flavor;
+    private Flavor flavor;
     private String description;
     private String image;
 
     private int status;
     private int discount;
-    //private Category category;
-    //private Date createdDate;
+    private Category category;
+    private Date createdDate;
+
+    public Product() {
+    }
+
     public int getId() {
         return id;
     }
@@ -89,4 +94,28 @@ public class Product implements Serializable {
     }
 
     // Các getter và setter ...
+
+    public Flavor getFlavor() {
+        return flavor;
+    }
+
+    public void setFlavor(Flavor flavor) {
+        this.flavor = flavor;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }
