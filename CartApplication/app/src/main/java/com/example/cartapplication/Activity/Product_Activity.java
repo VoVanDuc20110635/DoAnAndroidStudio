@@ -1,9 +1,5 @@
 package com.example.cartapplication.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,7 +8,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.CartProductAdapter;
@@ -59,6 +58,17 @@ public class Product_Activity extends AppCompatActivity {
     private List<Integer> imageList;
     private int currentImageIndex = 0;
     private View popUpView;
+    private TextView emptyView;
+
+    private void checkEmptyView() {
+        if (productList.isEmpty()||productList==null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
     //private ImageView closePopupButton;
 //    public void checkPopupWindowStatus(PopupWindow popupWindow) {
 //        if (popupWindow != null && popupWindow.isShowing()) {
@@ -387,6 +397,17 @@ public class Product_Activity extends AppCompatActivity {
                 popupWindow.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
                 //popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
                 //checkPopupWindowStatus(popupWindow);
+            }
+        });
+        emptyView=findViewById(R.id.empty_view);
+        checkEmptyView();
+
+        // Lắng nghe sự kiện thay đổi dữ liệu của adapter
+        productAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmptyView();
             }
         });
     }

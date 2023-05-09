@@ -75,6 +75,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     @Override
     public int getItemCount() {
+        if (productList==null)
+            return 0;
         return productList.size();
     }
 

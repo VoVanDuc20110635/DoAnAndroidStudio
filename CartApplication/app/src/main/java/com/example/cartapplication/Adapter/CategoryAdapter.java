@@ -1,5 +1,6 @@
 package com.example.cartapplication.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cartapplication.Activity.ProductbyCateorFlavorActivity;
 import com.example.cartapplication.R;
 import com.example.cartapplication.model.Category;
 
@@ -32,6 +34,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.categoryName.setText(category.getCategoryName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProductbyCateorFlavorActivity.class);
+                intent.putExtra("CorF","C");
+                intent.putExtra("CategoryId", category.getId());
+                intent.putExtra("name",category.getCategoryName());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

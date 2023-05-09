@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#95835049"
-    android:orientation="horizontal"
+    android:layout_height="129dp"
+    android:background="@drawable/itembackground"
     android:gravity="center_vertical"
-    >
+    android:orientation="horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -49,10 +48,10 @@
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
-
-            android:maxLines="3"
             android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Product Name"
+            android:textColor="#5A0701"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -60,6 +59,7 @@
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#5A0701"
             android:text="Price: 0 đồng"
             android:textSize="16sp" />
 
@@ -67,6 +67,7 @@
             android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#5A0701"
             android:text="Quantity: 0"
             android:textSize="16sp" />
 
