@@ -1,13 +1,24 @@
 package com.example.cartapplication.Activity;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +46,7 @@ import com.example.cartapplication.model.Flavor;
 import com.example.cartapplication.model.Product;
 import com.example.cartapplication.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,6 +72,12 @@ public class Product_Activity extends AppCompatActivity {
     private int currentImageIndex = 0;
     private View popUpView;
     private TextView emptyView;
+    private boolean isMoreButtonClicked = false;
+    private ImageView popupButton;
+    private ImageView showMoreButton;
+    private ImageView profileButton;
+    private User thisuser;
+    private SoundPool soundPool;
 
     private void checkEmptyView() {
         if (productList.isEmpty()||productList==null) {
@@ -101,6 +120,7 @@ public class Product_Activity extends AppCompatActivity {
                         User user = response.body();
                         // xử lý dữ liệu user
                         String nameuser = user.getName();
+                        thisuser=user;
                         textName.setText(nameuser);
                     } else {
                         // xử lý lỗi khi response không thành công
@@ -128,6 +148,55 @@ public class Product_Activity extends AppCompatActivity {
         //Glide.with(this)
         //        .load(imageUrl)
         ///        .into(imageView);
+    }
+    private void toggleMoreButtons() {
+        isMoreButtonClicked = !isMoreButtonClicked;
+
+        int originalShowMoreButtonMarginBottom = 0;
+        ViewGroup.MarginLayoutParams layoutParams =
+                (ViewGroup.MarginLayoutParams) showMoreButton.getLayoutParams();
+
+        if (isMoreButtonClicked) {
+            AnimationSet animationSet = createAnimationSet();
+            imageView3.setVisibility(View.VISIBLE);
+            imageView3.startAnimation(animationSet);
+            popupButton.setVisibility(View.VISIBLE);
+            popupButton.startAnimation(animationSet);
+            profileButton.setVisibility(View.VISIBLE);
+            profileButton.startAnimation(animationSet);
+            showMoreButton.setImageResource(R.drawable.xbutton);
+
+            originalShowMoreButtonMarginBottom = layoutParams.bottomMargin;
+            layoutParams.bottomMargin =
+                    getResources().getDimensionPixelSize(R.dimen.showMoreButtonMargin);
+            showMoreButton.setLayoutParams(layoutParams);
+
+        } else {
+            imageView3.setVisibility(View.GONE);
+            popupButton.setVisibility(View.GONE);
+            profileButton.setVisibility(View.GONE);
+            // Đặt lại margin bottom của showmorebutton
+            layoutParams.bottomMargin = originalShowMoreButtonMarginBottom;
+            showMoreButton.setLayoutParams(layoutParams);
+            showMoreButton.setImageResource(R.drawable.uparrow);
+        }
+    }
+    private AnimationSet createAnimationSet() {
+        AnimationSet animationSet = new AnimationSet(true);
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(500);
+        animationSet.addAnimation(alphaAnimation);
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 1f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        translateAnimation.setDuration(500);
+        animationSet.addAnimation(translateAnimation);
+
+        return animationSet;
     }
 
     private void loadProducts() {
@@ -188,7 +257,7 @@ public class Product_Activity extends AppCompatActivity {
         // Khởi tạo các view
         //imageView = findViewById(R.id.imageView);
         textName = findViewById(R.id.textName);
-
+        profileButton=findViewById(R.id.profilebutton);
 
         // Lấy dữ liệu user từ API
         getUserData();
@@ -388,7 +457,7 @@ public class Product_Activity extends AppCompatActivity {
 
 
         //mở cửa sổ pop up bằng nút
-        ImageView popupButton = findViewById(R.id.popupcate);
+        popupButton = findViewById(R.id.popupcate);
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -409,6 +478,32 @@ public class Product_Activity extends AppCompatActivity {
             public void onChanged() {
                 super.onChanged();
                 checkEmptyView();
+            }
+        });
+        showMoreButton = findViewById(R.id.showmorebutton);
+
+        SoundPool soundPool = new SoundPool.Builder()
+                .setMaxStreams(10)
+                .build();
+        int soundId = soundPool.load(this, R.raw.bubble3000, 1);
+        showMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+                //soundPool.pause(sound3StreamId);
+                //soundPool.autoPause();
+                toggleMoreButtons();
+            }
+        });
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Chuyển đến UserActivity và truyền vào user
+
+                intent = new Intent(Product_Activity.this, UserActivity.class);
+                intent.putExtra("user", thisuser); // Truyền vào user
+                startActivity(intent);
             }
         });
     }

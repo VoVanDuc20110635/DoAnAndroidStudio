@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String city;
     private String email;
     private String phoneNumber;
-    //private Account account;
+    private Account account;
 
     public int getId() {
         return id;
@@ -87,11 +87,11 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    /*public Account getAccount() {
+    public Account getAccount() {
         return account;
     }
 
     public void setAccount(Account account) {
         this.account = account;
-    }*/
+    }
 }
