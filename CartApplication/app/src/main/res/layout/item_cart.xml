@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="129dp"
-    android:background="@drawable/itembackground"
+    android:layout_height="91dp"
+    android:background="#0000"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -13,12 +13,12 @@
 
         <ImageView
             android:id="@+id/product_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/product_image_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,10 +27,8 @@
 
         <ImageView
             android:id="@+id/saleimage"
-            android:layout_width="69dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,38 +47,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="2"
             android:text="Product Name"
             android:textColor="#5A0701"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#5A0701"
-            android:text="Price: 0 đồng"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: 0 đồng"
+                android:textColor="#5A0701"
+                android:textSize="16sp" />
+
+        </LinearLayout>
         <TextView
-            android:id="@+id/product_quantity"
+            android:id="@+id/product_price1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Price: 0 đồng"
             android:textColor="#5A0701"
-            android:text="Quantity: 0"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
 
     </LinearLayout>
 
-    <Button
+    <ImageView
         android:id="@+id/buttonbuy"
-        android:layout_width="115dp"
-        android:layout_height="60dp"
-        android:background="#750D05"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="#00750D05"
         android:breakStrategy="balanced"
-        android:maxLines="2"
-        android:src="@drawable/delete_images"
-        android:text="BUY" />
+        android:maxLines="1"
+
+        android:scaleType="fitStart"
+        android:text="BUY"
+        android:textSize="9sp"
+        app:srcCompat="@drawable/buyicon" />
+
+    <Space
+        android:layout_width="8dp"
+        android:layout_height="8dp" />
 
 </LinearLayout>

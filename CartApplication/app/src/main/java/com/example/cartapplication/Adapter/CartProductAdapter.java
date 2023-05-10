@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,18 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Activity.DetailProductActivity;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.ProductService;
 import com.example.cartapplication.model.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.ProductViewHolder> {
 
@@ -29,8 +36,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         this.productList = productList;
         this.context = context;
     }
-    private List<Product> productList;
 
+    private List<Product> productList;
+    //private Product currentproduct;
     /*public CartProductAdapter(List<Product> productList) {
         this.productList = productList;
     }*/
@@ -44,24 +52,31 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+        //int id= product.getId();
+
+        //String thutu= String.valueOf(position);
         holder.productNameTextView.setText(product.getProductName());
         holder.priceTextView.setText(String.format("%,.0f đồng", product.getPrice()));
-        holder.quantityTextView.setText("Số lượng: " + product.getQuantity());
-        holder.buybuton.setText(String.format("MUA %.0f đồng",product.getPrice()-(product.getDiscount()*product.getPrice()/100)));
-        if(product.getDiscount()>0 ){
+        //holder.priceTextView.setText(thutu);
+        //holder.quantityTextView.setText("Số lượng: " + product.getQuantity());
+        //holder.buybuton.setText(String.format("%.0f",product.getPrice()-(product.getDiscount()*product.getPrice()/100)));
+        if (false)
+            if (product.getDiscount() > 0) {
 
-            holder.Saleimageview.setVisibility(View.VISIBLE);
-            holder.priceTextView.setPaintFlags(holder.priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            Drawable drawable;
-            if (product.getDiscount()<20){
-                drawable = ContextCompat.getDrawable(context, R.drawable.saletag);
+                holder.Saleimageview.setVisibility(View.VISIBLE);
+                holder.priceTextView.setPaintFlags(holder.priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.priceTextView1.setText(String.format("%,.0f Đồng", product.getrealprice()));
+                holder.priceTextView1.setVisibility(View.VISIBLE);
+                Drawable drawable;
+                if (product.getDiscount() < 20) {
+                    drawable = ContextCompat.getDrawable(context, R.drawable.saletag);
+                } else {
+                    drawable = ContextCompat.getDrawable(context, R.drawable.bigsaleremovebgpreview);
+                }
+                holder.Saleimageview.setImageDrawable(drawable);
             }
-            else{
-                drawable = ContextCompat.getDrawable(context, R.drawable.bigsaleremovebgpreview);
-            }
-            holder.Saleimageview.setImageDrawable(drawable);
-        }
         Picasso.get().load(product.getImage()).into(holder.productImageView);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +90,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     @Override
     public int getItemCount() {
-        if (productList==null)
+        if (productList == null)
             return 0;
         return productList.size();
     }
@@ -87,7 +102,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         public TextView productNameTextView;
-        public TextView priceTextView;
+        public TextView priceTextView, priceTextView1;
         public TextView quantityTextView;
         public ImageView productImageView;
         public ImageView Saleimageview;
@@ -97,12 +112,14 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.product_name);
             priceTextView = itemView.findViewById(R.id.product_price);
+            priceTextView1 = itemView.findViewById(R.id.product_price1);
             quantityTextView = itemView.findViewById(R.id.product_quantity);
             productImageView = itemView.findViewById(R.id.product_image);
-            Saleimageview=itemView.findViewById(R.id.saleimage);
-            buybuton=itemView.findViewById(R.id.buttonbuy);
+            Saleimageview = itemView.findViewById(R.id.saleimage);
+            //buybuton=itemView.findViewById(R.id.buttonbuy);
         }
     }
+
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }

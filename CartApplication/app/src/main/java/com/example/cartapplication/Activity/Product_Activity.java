@@ -140,6 +140,7 @@ public class Product_Activity extends AppCompatActivity {
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     productList.addAll(response.body());
+                    productAdapter.updateList(productList);
                     productAdapter.notifyDataSetChanged();
                 }
             }

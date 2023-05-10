@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/smokecofe"
-    android:scaleType="centerCrop"
-    android:padding="16dp">
+    android:background="@drawable/backgroundcoffee"
+    android:padding="16dp"
+    android:scaleType="centerCrop">
 
 
     <ImageView
@@ -42,8 +42,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="104dp"
-                android:layout_height="115dp"
+                android:layout_width="55dp"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
                 android:src="@drawable/coffee_icon" />
 
             <LinearLayout
@@ -54,23 +55,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cửa hàng cafe"
+                    android:text="FILTRO COFFEE"
                     android:textColor="#603913"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-                <!-- Empty view -->
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_launcher_background" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="84dp"
-                android:layout_height="115dp"
-                android:orientation="vertical">
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -78,15 +67,30 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Chào mừng"
-                    android:textSize="16sp" />
+                    android:textAlignment="center"
+                    android:textColor="#603913"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/textName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center|fill_vertical"
                     android:text="not found 404"
-                    android:textColor="#603913"/>
+                    android:textAlignment="textEnd"
+                    android:textColor="#603913"
+                    android:textSize="16sp" />
+
+                <!-- Empty view -->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="84dp"
+                android:layout_height="115dp"
+                android:orientation="vertical">
+
             </LinearLayout>
 
         </LinearLayout>
@@ -129,9 +133,10 @@
                 android:layout_width="25dp"
                 android:layout_height="51dp"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:contentDescription="Nút chức năng"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
+                app:srcCompat="@drawable/fillicon" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -174,5 +179,5 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         android:text="Button"
-        app:srcCompat="@drawable/listicon"/>
+        app:srcCompat="@drawable/listicon" />
 </RelativeLayout>

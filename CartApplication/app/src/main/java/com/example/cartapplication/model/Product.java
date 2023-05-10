@@ -118,4 +118,7 @@ public class Product implements Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+    public Double getrealprice(){
+        return (getPrice() - (getDiscount() * getPrice() / 100));
+    }
 }

@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/productbackground">
 
     <ImageView
         android:id="@+id/product_image"
@@ -27,6 +28,7 @@
         android:layout_marginEnd="16dp"
         android:text="Product Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/product_image"
         app:layout_constraintStart_toStartOf="@+id/product_image"
@@ -40,6 +42,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="Product Description"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/product_name"
         app:layout_constraintStart_toStartOf="@+id/product_name"
         app:layout_constraintTop_toBottomOf="@+id/product_name" />
@@ -51,6 +54,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Product Price"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/product_description"
         app:layout_constraintTop_toBottomOf="@+id/product_description" />
 
@@ -59,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Product Quantity"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/product_price"
         app:layout_constraintTop_toBottomOf="@+id/product_price" />
 
@@ -67,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Product Sold"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/product_quantity"
         app:layout_constraintTop_toBottomOf="@+id/product_quantity" />
 
@@ -74,12 +80,14 @@
         android:id="@+id/product_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Product rating"
 
+        android:layout_marginTop="32dp"
+        android:contentDescription="Product rating"
         android:isIndicator="true"
         app:layout_constraintEnd_toEndOf="@+id/product_name"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/product_name"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/product_sold" />
 
     <Button
         android:id="@+id/add_to_cart_button"
@@ -98,7 +106,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/product_name"
         app:layout_constraintStart_toStartOf="@+id/product_name"
-        app:layout_constraintTop_toBottomOf="@+id/product_sold">
+        app:layout_constraintTop_toBottomOf="@+id/product_rating">
 
         <ImageButton
             android:id="@+id/button_plus"
@@ -118,12 +126,14 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:gravity="center"
             android:inputType="numberSigned"
             android:text="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:textColor="#FFFFFF"
 
+            android:textColorHint="#FFFFFF"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/button_minus"
             app:layout_constraintTop_toTopOf="@+id/button_minus" />
 
@@ -144,6 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textColor="#FFFFFF"
 
         android:text="---"
         app:layout_constraintStart_toEndOf="@+id/product_price"
