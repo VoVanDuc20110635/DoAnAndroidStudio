@@ -78,6 +78,7 @@ public class Product_Activity extends AppCompatActivity {
     private ImageView profileButton;
     private User thisuser;
     private SoundPool soundPool;
+    //private String phanhoi;
 
     private void checkEmptyView() {
         if (productList.isEmpty()||productList==null) {
@@ -202,6 +203,7 @@ public class Product_Activity extends AppCompatActivity {
     private void loadProducts() {
         // Đọc dữ liệu từ JSON và thêm vào productList
         // ...
+        //phanhoi="";
         ProductService productService = ApiClient.getApiClient().create(ProductService.class);
         Call<List<Product>> call = productService.getProductList();
         call.enqueue(new Callback<List<Product>>() {
@@ -211,6 +213,7 @@ public class Product_Activity extends AppCompatActivity {
                     productList.addAll(response.body());
                     productAdapter.updateList(productList);
                     productAdapter.notifyDataSetChanged();
+                    //phanhoi=response.body().toString();
                 }
             }
 
@@ -221,6 +224,7 @@ public class Product_Activity extends AppCompatActivity {
         });
         // Cập nhật Adapter
         productAdapter.notifyDataSetChanged();
+
     }
 
     private void searchProducts(String searchText) {
@@ -506,6 +510,7 @@ public class Product_Activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //Log.d("Thông tin trả về ",phanhoi);
     }
 
 }
