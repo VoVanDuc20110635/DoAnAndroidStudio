@@ -22,10 +22,13 @@ import com.example.cartapplication.Service.CartService;
 import com.example.cartapplication.Service.UserService;
 import com.example.cartapplication.model.Account;
 import com.example.cartapplication.model.Cart;
+import com.example.cartapplication.model.CartItem;
 import com.example.cartapplication.model.User;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     public Account account = new Account();
 
     public Cart cart = new Cart();
+
+    public List<CartItem> cartItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +131,22 @@ public class LoginActivity extends AppCompatActivity {
                                             if (cart == null){
                                                 Toast.makeText(LoginActivity.this, "Cart ko lay duoc keke", Toast.LENGTH_SHORT).show();
                                             }
-                                            addInformationToSharedPreference();
+                                            Call<List<CartItem>> call4 = cartService.getUserCartItems(thisuser.getId());
+                                            call4.enqueue(new Callback<List<CartItem>>() {
+                                                @Override
+                                                public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
+                                                    if (response.isSuccessful() && response.body() != null){
+                                                        cartItemList = response.body();
+                                                        addInformationToSharedPreference();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<List<CartItem>> call, Throwable t) {
+                                                    Log.e("loi:", "khong lay duoc cartitemList");
+                                                }
+                                            });
+
                                         }
                                     }
 
@@ -240,14 +260,17 @@ public class LoginActivity extends AppCompatActivity {
         String accountJson = gson.toJson(account);
         String userJson = gson.toJson(thisuser);
         String cartJson = gson.toJson(cart);
+        String cartItemListJson = gson.toJson(cartItemList);
         editor.putString("account", accountJson);
         editor.putString("user", userJson);
         editor.putString("User_id", String.valueOf(account.getId()));
         editor.putString("cart", cartJson);
+        editor.putString("cartItemList", cartItemListJson);
         editor.commit();
 
         if (thisuser != null && account != null){
             Log.e("thong bao", "ca user va account ton tai " + thisuser.getName() + " " + account.getId());
+            Log.e("cartItemList", cartItemListJson);
         }
 
         Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
