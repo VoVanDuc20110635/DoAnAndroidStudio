@@ -71,7 +71,7 @@ public class CartItem implements Serializable {
     }
 
     public GuestCart getGuestCart() {
-        return guestCart;
+        return this.guestCart;
     }
 
     public void setGuestCart(GuestCart guestCart) {

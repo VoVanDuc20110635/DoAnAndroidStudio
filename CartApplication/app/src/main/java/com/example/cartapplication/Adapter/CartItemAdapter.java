@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         CartItem product = productList.get(position);
+//        Log.e("dc",product.getProduct().getProductName());
 
         Picasso.get()
                 .load(product.getProduct().getImage())

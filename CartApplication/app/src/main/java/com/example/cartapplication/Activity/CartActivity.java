@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +19,15 @@ import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.CartItemAdapter;
 import com.example.cartapplication.Adapter.CartProductAdapter;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.CartItemService;
+import com.example.cartapplication.Service.CartService;
 import com.example.cartapplication.Service.ProductService;
 import com.example.cartapplication.model.CartItem;
 import com.example.cartapplication.model.Product;
+import com.example.cartapplication.model.User;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,6 +37,8 @@ import java.util.ListIterator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -38,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
     private CartItemAdapter adapter;
     private List<Product> productList;
     private Button buttonAddToCart;
+    private SharedPreferences sharedPreferences;
 
     private void loadProducts() {
         // Đọc dữ liệu từ JSON và thêm vào productList
@@ -67,152 +77,75 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         // Get the cart items from the intent extras
-        cartItems = new List<CartItem>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(@Nullable Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<CartItem> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] ts) {
-                return null;
-            }
-
-            @Override
-            public boolean add(CartItem cartItem) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(@Nullable Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NonNull Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NonNull Collection<? extends CartItem> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int i, @NonNull Collection<? extends CartItem> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NonNull Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NonNull Collection<?> collection) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public boolean equals(@Nullable Object o) {
-                return false;
-            }
-
-            @Override
-            public int hashCode() {
-                return 0;
-            }
-
-            @Override
-            public CartItem get(int i) {
-                return null;
-            }
-
-            @Override
-            public CartItem set(int i, CartItem cartItem) {
-                return null;
-            }
-
-            @Override
-            public void add(int i, CartItem cartItem) {
-
-            }
-
-            @Override
-            public CartItem remove(int i) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<CartItem> listIterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<CartItem> listIterator(int i) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public List<CartItem> subList(int i, int i1) {
-                return null;
-            }
-        };
         cartItems = new ArrayList<>();
-        cartItems.add(new CartItem(3, null, new Product(3, "Loz", 3, 33, 333,
-                null, null, null, 2, 3, null, null), 2, 1222, 333, null, null));
+//        cartItems.add(new CartItem(3, null, new Product(3, "Loz", 3, 33, 333,
+//                null, null, null, 2, 3, null, null), 2, 1222, 333, null, null));
 
-        // Create an adapter for the cart items
-        adapter = new CartItemAdapter(cartItems, this);
+        sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String userJson = sharedPreferences.getString("user", "");
+        User user = gson.fromJson(userJson, User.class);
+        Log.e("dc",user.getName());
 
-        // Attach the adapter to the RecyclerView
-        RecyclerView listViewCartItems = findViewById(R.id.listViewCartItems);
-        listViewCartItems.setAdapter(adapter);
+        // Khởi tạo Retrofit
+        Retrofit retrofit = ApiClient.getApiClient();
 
-        // Set the layout manager for the RecyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        listViewCartItems.setLayoutManager(layoutManager);
+// Tạo một đối tượng service sử dụng Retrofit
+        CartItemService cartItemService = retrofit.create(CartItemService.class);
+
+// Gọi API để lấy danh sách CartItem
+//        Log.e("dc","dangchay");
+        Call<List<CartItem>> call = cartItemService.getCartItem(user.getId());
+
+// Thực hiện request và xử lý kết quả trả về
+        call.enqueue(new Callback<List<CartItem>>() {
+            @Override
+            public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
+//                Log.e("dc","vao");
+//                Log.e("dc",String.valueOf(user.getId()));
+                if (response.isSuccessful()) {
+                   cartItems = response.body();
+                   if(cartItems != null){
+                       Log.e("dc",cartItems.get(0).getProduct().getProductName());
+                   }
+                    // Create an adapter for the cart items
+                    adapter = new CartItemAdapter(cartItems, CartActivity.this);
+
+
+                    // Attach the adapter to the RecyclerView
+                    RecyclerView listViewCartItems = findViewById(R.id.listViewCartItems);
+                    listViewCartItems.setAdapter(adapter);
+                    Log.e("Loi",response.body().toString());
+                    if(response.body() == null){
+                        Log.e("dc","bitrong");
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    // Xử lý trường hợp request không thành công
+                    String error = null;
+                    try {
+                        error = response.errorBody().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Xử lý lỗi ở đây
+                    Log.e("das", "Request failed with error: " + error);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CartItem>> call, Throwable t) {
+                // Xử lý trường hợp có lỗi xảy ra trong quá trình thực hiện request
+            }
+        });
+
+
+
+//        // Set the layout manager for the RecyclerView
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        listViewCartItems.setLayoutManager(layoutManager);
 
         // Update the total price TextView
         TextView textViewTotal = findViewById(R.id.textViewTotal);
