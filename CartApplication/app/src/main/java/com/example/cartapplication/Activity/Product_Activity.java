@@ -44,11 +44,13 @@ import com.example.cartapplication.Service.FlavorService;
 import com.example.cartapplication.Service.ProductService;
 import com.example.cartapplication.Service.UserService;
 import com.example.cartapplication.model.Account;
+import com.example.cartapplication.model.CartItem;
 import com.example.cartapplication.model.Category;
 import com.example.cartapplication.model.Flavor;
 import com.example.cartapplication.model.Product;
 import com.example.cartapplication.model.User;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -537,6 +539,10 @@ public class Product_Activity extends AppCompatActivity {
         String userJson= sharedPreferences.getString("user", "");
         Log.e("userJson", userJson);
         thisUser = gson.fromJson(userJson, User.class);
+
+        String listCartItemJson = sharedPreferences.getString("cartItemList", "");
+        List<CartItem> listCartItem = gson.fromJson(listCartItemJson,new TypeToken<List<CartItem>>(){}.getType());
+        Log.e("list cart item", listCartItem.get(0).getProduct().getProductName());
 
         String accoutnJson = sharedPreferences.getString("account", "");
         Log.e("accoutnJson", accoutnJson);

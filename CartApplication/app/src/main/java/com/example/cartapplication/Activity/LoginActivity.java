@@ -2,7 +2,9 @@ package com.example.cartapplication.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +20,6 @@ import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.AccountService;
 import com.example.cartapplication.Service.CartService;
-import com.example.cartapplication.Service.UserService;
 import com.example.cartapplication.model.Account;
 import com.example.cartapplication.model.Cart;
 import com.example.cartapplication.model.CartItem;
@@ -33,13 +33,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText editTextEmail;
     EditText editTextPassword;
     Button btnLogin;
+
+    TextView forgotPasswordButton;
 
     TextView registerButton;
     SharedPreferences sharedPreferences;
@@ -59,6 +60,15 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
 
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(LoginActivity.this, SignUpActivity.class);
+                Bundle bundle2 = new Bundle();
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +82,15 @@ public class LoginActivity extends AppCompatActivity {
 //                    Log.e("loi","account khong ton tai");
 //                }
 //                addInformationToSharedPreference();
+            }
+        });
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                Bundle bundle2 = new Bundle();
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
             }
         });
     }
@@ -178,8 +197,9 @@ public class LoginActivity extends AppCompatActivity {
     private void initView(){
         editTextEmail = findViewById(R.id.etUsername);
         editTextPassword =  findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.login_button);
-        registerButton = findViewById(R.id.register_new);
+        btnLogin = findViewById(R.id.continue_button);
+        registerButton = findViewById(R.id.login_button);
+        forgotPasswordButton = findViewById(R.id.forgotPassword_button);
     }
     private void getUserFromAccount(){
         AccountService accountService = ApiClient.getApiClient().create(AccountService.class);
@@ -261,6 +281,7 @@ public class LoginActivity extends AppCompatActivity {
         String userJson = gson.toJson(thisuser);
         String cartJson = gson.toJson(cart);
         String cartItemListJson = gson.toJson(cartItemList);
+        // chuuyen list cart item thành chuoi json
         editor.putString("account", accountJson);
         editor.putString("user", userJson);
         editor.putString("User_id", String.valueOf(account.getId()));
@@ -280,5 +301,24 @@ public class LoginActivity extends AppCompatActivity {
         bundle.putSerializable("User_id", account.getId());
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Bạn có chắc chắn muốn thoát ứng dụng không?")
+                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("Không", null)
+                .show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Thực hiện các xử lý khi người dùng tắt ứng dụng
     }
 }
