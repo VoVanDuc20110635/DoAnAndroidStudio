@@ -1,12 +1,10 @@
 package com.example.cartapplication.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,9 +12,25 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cartapplication.APIClient.ApiClient;
+import com.example.cartapplication.Adapter.FeedbackAdapter;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.FeedbackService;
+import com.example.cartapplication.model.Feedback;
 import com.example.cartapplication.model.Product;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class DetailProductActivity extends AppCompatActivity {
     private ImageView productImageView;
@@ -29,10 +43,13 @@ public class DetailProductActivity extends AppCompatActivity {
     private RatingBar productRatingBar;
     private ImageButton buttonPlus;
     private ImageButton buttonMinus;
-
-    private Button buttonAddToCart;
     private EditText quantityEditText;
     private int MAX_QUANTITY = 0;
+    private RecyclerView feedbackRecyclerView;
+    private FeedbackAdapter feedbackAdapter;
+    private List<Feedback> feedbackList;
+    //private ApiClient apiClient;
+    //private String phanhoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,5 +124,52 @@ public class DetailProductActivity extends AppCompatActivity {
                 }
             }
         });
+
+//lấy feedback
+        Retrofit retrofit = ApiClient.getApiClient();
+        //String phanhoi="";
+        feedbackList=new ArrayList<>();
+        //phanhoi="";
+        //feedbackList.add(new Feedback(0,"Rỗng"));
+        FeedbackService feedbackService = retrofit.create(FeedbackService.class);
+        Call call=feedbackService.getAllfeedback(product.getId());
+        call.enqueue(new Callback<List<Feedback>>() {
+            @Override
+            public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+                    //Log.e("Lỗi:","đã chạy");
+                    feedbackList.addAll(response.body());
+                    //Log.e("Đầu tiên:",String.valueOf(feedbackList.get(0).getContent()));
+                    //Log.d("PHản hồi thông tin",String.valueOf(response.body().toString()));
+                    //phanhoi=response.body().toString();
+                    // TODO: Xử lý danh sách feedback
+                    feedbackRecyclerView = findViewById(R.id.feedback_recycler_view);
+                    feedbackRecyclerView.setLayoutManager(new LinearLayoutManager(DetailProductActivity.this));
+                    feedbackAdapter = new FeedbackAdapter(feedbackList);
+
+                    // Thiết lập Adapter cho RecyclerView
+                    feedbackRecyclerView.setAdapter(feedbackAdapter);
+                } else {
+                    // TODO: Xử lý lỗi
+                    Log.e("Lỗi:","Lỗi");
+                    feedbackList.add(new Feedback(0,"Rỗng"));
+                    Log.e("Lỗi:","Lỗi x2");
+                    //phanhoi="Sai rồi";
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Feedback>> call, Throwable t) {
+                // TODO: Xử lý lỗi
+                Log.e("Lỗi",t.toString());
+
+            }
+        });
+        //Log.d("Thông tin", String.valueOf(feedbackList));
+        //Log.d("id",String.valueOf(product.getId()));
+        //Log.d("phản hồi",phanhoi);
+        // Khởi tạo RecyclerView và Adapter
+
     }
 }
