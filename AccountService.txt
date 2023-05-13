@@ -1,0 +1,3 @@
+    public Account getbyEmail(String email){
+        return accountRepository.findByEmail(email);
+    }
