@@ -19,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -78,6 +79,7 @@ public class Product_Activity extends AppCompatActivity {
     private ImageView profileButton;
     private User thisuser;
     private SoundPool soundPool;
+    private Button closebutton;
     //private String phanhoi;
 
     private void checkEmptyView() {
@@ -390,6 +392,8 @@ public class Product_Activity extends AppCompatActivity {
         popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popupWindow.setOutsideTouchable(true);
+        //Nút đóng cửa sổ popup
+
 //        closePopupButton=findViewById(R.id.closepopup);
 //        //checkPopupWindowStatus(popupWindow);
 //        closePopupButton = findViewById(R.id.closepopup);
@@ -470,6 +474,15 @@ public class Product_Activity extends AppCompatActivity {
                 // Hiển thị PopupWindow tại vị trí ImageView
                 popupWindow.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
                 //popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+                closebutton=popUpView.findViewById(R.id.btnclose);
+                closebutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
                 //checkPopupWindowStatus(popupWindow);
             }
         });
@@ -511,6 +524,7 @@ public class Product_Activity extends AppCompatActivity {
             }
         });
         //Log.d("Thông tin trả về ",phanhoi);
+
     }
 
 }
