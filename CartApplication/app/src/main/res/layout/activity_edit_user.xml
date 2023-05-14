@@ -1,0 +1,149 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_user_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/edit_user_name_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+    <EditText
+        android:id="@+id/edit_user_name"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:inputType="text"
+        android:hint="Enter your name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_name_label" />
+
+    <TextView
+        android:id="@+id/edit_user_sex_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sex"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <Spinner
+        android:id="@+id/edit_user_sex_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:contentDescription="sex"
+        android:labelFor="@id/edit_user_sex_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_sex_label" />
+
+    <TextView
+        android:id="@+id/edit_user_address_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_sex_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <EditText
+        android:id="@+id/edit_user_address"
+        android:layout_width="0dp"
+        android:hint="Enter your Address"
+        android:layout_height="51dp"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_address_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/edit_user_zip_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Zip Code"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <EditText
+        android:id="@+id/edit_user_zip"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:hint="Enter your ZIP code"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_zip_label" />
+
+    <TextView
+        android:id="@+id/edit_user_email_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_zip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <EditText
+        android:hint="Enter your email"
+        android:id="@+id/edit_user_email"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_email_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/edit_user_phone_number_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/edit_user_email_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <EditText
+        android:id="@+id/edit_user_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_phone_number_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Enter your Phone number"/>
+
+    <Button
+        android:id="@+id/save_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="80dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_user_phone_number" />
+
+    <Button
+        android:id="@+id/buttonReturnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="8dp"
+        android:text="BACK"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_user_phone_number" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
