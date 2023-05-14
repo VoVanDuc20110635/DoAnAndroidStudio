@@ -2,16 +2,30 @@ package com.example.cartapplication.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.CartService;
+import com.example.cartapplication.Service.UserService;
 import com.example.cartapplication.model.User;
+import com.google.gson.Gson;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class EditUserActivity extends AppCompatActivity {
     private EditText editUserName;
@@ -22,6 +36,7 @@ public class EditUserActivity extends AppCompatActivity {
     private EditText editUserPhoneNumber;
     private Button saveUserButton;
     private String[] sexArray = {"Không hiển thị", "Nam", "Nữ"};
+    private SharedPreferences sharedPreferences;
 
     private void loaddulieu() {
 
@@ -63,9 +78,53 @@ public class EditUserActivity extends AppCompatActivity {
         saveUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Lấy giá trị từ editUserName
-                String name = editUserName.getText().toString();
-                // Lưu giá trị vào database hoặc thực hiện các thao tác khác
+                Log.e("dc","bam dc nut");
+                sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String userJson = sharedPreferences.getString("user", "");
+                User user = gson.fromJson(userJson, User.class);
+
+                Retrofit retrofit = ApiClient.getApiClient();
+                UserService userService = retrofit.create(UserService.class);
+
+                Call<ResponseBody> call = userService.editUserInfo(user.getId(),
+                        editUserName.getText().toString(), editUserSexSpinner.getSelectedItem().toString()
+                        , editUserAddress.getText().toString(), Integer.parseInt(editUserZip.getText().toString()),
+                        editUserEmail.getText().toString(), editUserPhoneNumber.getText().toString());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+//                            Log.e("dc","cap nhat dc");
+                            Toast.makeText(EditUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            Call<User> call2 = userService.getUser(user.getId());
+                            call2.enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
+
+                                    sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    String userJson = gson.toJson(response.body());
+                                    editor.putString("user", userJson);
+                                    editor.apply();
+                                    //Log.e("dc",userJson);
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+
+                                }
+                            });
+                            Intent intent = new Intent(EditUserActivity.this, UserActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                       // Log.e("dc",call.toString());
+                    }
+                });
             }
         });
     }

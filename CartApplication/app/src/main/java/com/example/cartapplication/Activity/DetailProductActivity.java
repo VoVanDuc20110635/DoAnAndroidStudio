@@ -1,10 +1,13 @@
 package com.example.cartapplication.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,14 +22,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.FeedbackAdapter;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.CartService;
 import com.example.cartapplication.Service.FeedbackService;
 import com.example.cartapplication.model.Feedback;
 import com.example.cartapplication.model.Product;
+import com.example.cartapplication.model.User;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +57,11 @@ public class DetailProductActivity extends AppCompatActivity {
     private RecyclerView feedbackRecyclerView;
     private FeedbackAdapter feedbackAdapter;
     private List<Feedback> feedbackList;
+    private SharedPreferences sharedPreferences;
+    private Button addToCartButton;
+    private EditText feedbackText;
+    private ImageView sendFeedback;
+
     //private ApiClient apiClient;
     //private String phanhoi;
 
@@ -65,6 +79,9 @@ public class DetailProductActivity extends AppCompatActivity {
         productQuantityTextView = findViewById(R.id.product_quantity);
         productSoldTextView = findViewById(R.id.product_sold);
         productRatingBar = findViewById(R.id.product_rating);
+        addToCartButton = findViewById(R.id.add_to_cart_button);
+        sendFeedback = findViewById(R.id.send_feedback_button);
+        feedbackText = findViewById(R.id.feedback_edit_text);
 
         Intent intent = getIntent();
         Product product = (Product) intent.getSerializableExtra("Product");
@@ -166,6 +183,70 @@ public class DetailProductActivity extends AppCompatActivity {
 
             }
         });
+
+
+        sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String userJson = sharedPreferences.getString("user", "");
+        User user = gson.fromJson(userJson, User.class);
+        Log.e("dc",user.getName());
+
+        // Khởi tạo Retrofit
+//        Retrofit retrofit = ApiClient.getApiClient();
+        CartService cartService = retrofit.create(CartService.class);
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call1 = cartService.addToCart(user.getId(),product.getId(),Integer.parseInt(quantityEditText.getText().toString()));
+                //Toast.makeText(DetailProductActivity.this, String.valueOf(Integer.parseInt(quantityEditText.getText().toString())), Toast.LENGTH_SHORT).show();
+                if(Integer.parseInt(quantityEditText.getText().toString()) > 0 && Integer.parseInt(quantityEditText.getText().toString()) < MAX_QUANTITY){
+                call1.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(DetailProductActivity.this, "Đã thêm sản phẩm "+product.getProductName(), Toast.LENGTH_SHORT).show();
+                            Intent intent = getIntent();
+                            if(intent.getBooleanExtra("FromCart",false)){
+                                intent = new Intent(DetailProductActivity.this, CartActivity.class);
+                            }
+                            else{
+                                intent = new Intent(DetailProductActivity.this, Product_Activity.class);
+                            }
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });}
+                else{
+                    Toast.makeText(DetailProductActivity.this, "So luong khong cho phep", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        sendFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<ResponseBody> call2 = feedbackService.sentfeedback(user.getId(),feedbackText.getText().toString(),product.getId());
+                call2.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(DetailProductActivity.this, "Bạn đã bình luận", Toast.LENGTH_SHORT).show();
+                            recreate();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
         //Log.d("Thông tin", String.valueOf(feedbackList));
         //Log.d("id",String.valueOf(product.getId()));
         //Log.d("phản hồi",phanhoi);

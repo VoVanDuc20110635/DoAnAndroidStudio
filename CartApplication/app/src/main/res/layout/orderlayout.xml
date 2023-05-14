@@ -10,42 +10,49 @@
         android:id="@+id/order_date_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order Date: "/>
+        android:text="Order Date: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/address_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Address: "/>
+        android:text="Address: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/city_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="City: "/>
+        android:text="City: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/phone_number_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone Number: "/>
+        android:text="Phone Number: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total: "/>
+        android:text="Total: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/status_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: "/>
+        android:text="Status: "
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/payment_method_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Payment Method: "/>
+        android:text="Payment Method: "
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>
