@@ -151,13 +151,14 @@ public class SignUpActivity extends AppCompatActivity {
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                     } else {
-                        Log.e("thong bao: ", "body khong xac dinh");
+                        //Log.e("thong bao: ", "body khong xac dinh");
+
                     }
                 } else {
                     int statusCode = response.code();
                     String errorMessage = response.message();
                     Log.e("thong bao: ", "response khong thanh cong: " + statusCode + " - " + errorMessage);
-                    Toast.makeText(SignUpActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this,"Email đã tồn tại",Toast.LENGTH_SHORT).show();
                 }
             }
 

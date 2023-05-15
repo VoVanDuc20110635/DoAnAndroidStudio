@@ -84,20 +84,20 @@ public class AccountAPIController {
         System.out.println(userName + " " + accountName  + " " + email + " " + password + " " + repeatPassword);
         try {
             userService.registerUser(userName, accountName, email, password, repeatPassword);
-            String message = "Tao tai khoan thanh cong!";
+            String message = "Tạo tài khoản thành công !";
             System.out.println(message);
             ErrorResponse err = new ErrorResponse(message, HttpStatus.OK.value());
             return new ResponseEntity<>(err, HttpStatus.OK);
         } catch (AccountNameExistException ex) {
-            String message = "Tai khoan da ton tai";
+            String message = "Tài khoản đã tồn tại";
             System.out.println(message);
             ErrorResponse err = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(err, HttpStatus.OK);
         } catch (PasswordDoNotMatchException ex) {
-            String message = "Mat khau khong dung";
+            String message = "Mật khẩu không đúng";
             System.out.println(message);
             ErrorResponse err = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(err, HttpStatus.OK);
         }
     }
 

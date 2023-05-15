@@ -292,7 +292,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("thong bao", "ca user va account ton tai " + thisuser.getName() + " " + account.getId());
             Log.e("cartItemList", cartItemListJson);
 
-            if (account.getId() == 0) {
+            if (thisuser.getId() == 0) {
+                Toast.makeText(LoginActivity.this,"Sai tài khoản/mật khẩu",Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
                 Bundle bundle = new Bundle();
