@@ -597,3 +597,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-05-14 21:18:10
+ALTER TABLE khachhang ADD CONSTRAINT unique_email UNIQUE (Email);
+Alter table taikhoan ADD Constraint taikhoan_unique UNIQUE (TaiKhoan);

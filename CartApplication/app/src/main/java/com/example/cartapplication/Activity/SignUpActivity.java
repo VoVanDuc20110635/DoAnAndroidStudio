@@ -105,10 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         callApiRegister(userName, accountName, email, password, repeatPassword);
 
-        Intent intent2 = new Intent(SignUpActivity.this, LoginActivity.class);
-        Bundle bundle2 = new Bundle();
-        intent2.putExtras(bundle2);
-        startActivity(intent2);
+
 
 
 //        AccountService accountService = ApiClient.getApiClient().create(AccountService.class);
@@ -149,6 +146,10 @@ public class SignUpActivity extends AppCompatActivity {
                         // xử lý kết quả trả về ở đây
                         Log.e("thong bao thanh cong", response.body().getMessage());
                         Toast.makeText(SignUpActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(SignUpActivity.this, LoginActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
                     } else {
                         Log.e("thong bao: ", "body khong xac dinh");
                     }
@@ -156,6 +157,7 @@ public class SignUpActivity extends AppCompatActivity {
                     int statusCode = response.code();
                     String errorMessage = response.message();
                     Log.e("thong bao: ", "response khong thanh cong: " + statusCode + " - " + errorMessage);
+                    Toast.makeText(SignUpActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
                 }
             }
 

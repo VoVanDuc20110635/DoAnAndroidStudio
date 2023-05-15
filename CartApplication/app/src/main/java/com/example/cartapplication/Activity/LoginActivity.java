@@ -74,13 +74,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 testLogin();
-                if (account != null)
-                {
-                    Log.e("loi","account ton tai");
+                if (account != null) {
+                    Log.e("loi", "account ton tai");
                     getUserFromAccount();
-                }
-                else {
-                    Log.e("loi","account khong ton tai");
+                } else {
+                    Log.e("loi", "account khong ton tai");
                 }
                 addInformationToSharedPreference();
             }
@@ -136,26 +134,25 @@ public class LoginActivity extends AppCompatActivity {
                                 thisuser = response.body();
                                 Log.e("ten user: ", thisuser.getName());
                                 CartService cartService = ApiClient.getApiClient().create(CartService.class);
-                                Call<Cart> call3 =cartService.getUserCart(thisuser.getId());
+                                Call<Cart> call3 = cartService.getUserCart(thisuser.getId());
                                 call3.enqueue(new Callback<Cart>() {
                                     @Override
                                     public void onResponse(Call<Cart> call, Response<Cart> response) {
-                                        if (response.isSuccessful() && response.body() != null){
+                                        if (response.isSuccessful() && response.body() != null) {
                                             cart = response.body();
                                             try {
                                                 Log.e("cart cua userName: ", cart.getUser().getName());
-                                            }
-                                            catch (Exception e){
+                                            } catch (Exception e) {
                                                 Log.e("loi:", "khong lay duoc cart");
                                             }
-                                            if (cart == null){
+                                            if (cart == null) {
                                                 Toast.makeText(LoginActivity.this, "Cart ko lay duoc keke", Toast.LENGTH_SHORT).show();
                                             }
                                             Call<List<CartItem>> call4 = cartService.getUserCartItems(thisuser.getId());
                                             call4.enqueue(new Callback<List<CartItem>>() {
                                                 @Override
                                                 public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
-                                                    if (response.isSuccessful() && response.body() != null){
+                                                    if (response.isSuccessful() && response.body() != null) {
                                                         cartItemList = response.body();
                                                         addInformationToSharedPreference();
                                                     }
@@ -195,14 +192,16 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    private void initView(){
+
+    private void initView() {
         editTextEmail = findViewById(R.id.etUsername);
-        editTextPassword =  findViewById(R.id.etPassword);
+        editTextPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.continue_button);
         registerButton = findViewById(R.id.login_button);
         forgotPasswordButton = findViewById(R.id.forgotPassword_button);
     }
-    private void getUserFromAccount(){
+
+    private void getUserFromAccount() {
         AccountService accountService = ApiClient.getApiClient().create(AccountService.class);
         Call<User> call = accountService.findUserByAccountId(account.getId());
         call.enqueue(new Callback<User>() {
@@ -245,21 +244,20 @@ public class LoginActivity extends AppCompatActivity {
 //        });
     }
 
-    private void getCartFromUser(){
+    private void getCartFromUser() {
         CartService cartService = ApiClient.getApiClient().create(CartService.class);
-        Call<Cart> call3 =cartService.getUserCart(thisuser.getId());
+        Call<Cart> call3 = cartService.getUserCart(thisuser.getId());
         call3.enqueue(new Callback<Cart>() {
             @Override
             public void onResponse(Call<Cart> call, Response<Cart> response) {
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
                     cart = response.body();
                     try {
                         Log.e("cart cua userName: ", cart.getUser().getName());
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("loi:", "khong lay duoc cart");
                     }
-                    if (cart == null){
+                    if (cart == null) {
                         Toast.makeText(LoginActivity.this, "Cart ko lay duoc keke", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -271,7 +269,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void addInformationToSharedPreference(){
+
+    private void addInformationToSharedPreference() {
         //tương tự như session bên web, sử dụng sharedPreferences
         sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -289,19 +288,23 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("cartItemList", cartItemListJson);
         editor.commit();
 
-        if (thisuser != null && account != null){
+        if (thisuser != null && account != null) {
             Log.e("thong bao", "ca user va account ton tai " + thisuser.getName() + " " + account.getId());
             Log.e("cartItemList", cartItemListJson);
-        }
 
-        Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("account", (Serializable) account);
-        bundle.putSerializable("user", (Serializable) thisuser);
-        bundle.putSerializable("User_id", account.getId());
-        intent.putExtras(bundle);
-        startActivity(intent);
+            if (account.getId() == 0) {
+            } else {
+                Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("account", (Serializable) account);
+                bundle.putSerializable("user", (Serializable) thisuser);
+                bundle.putSerializable("User_id", account.getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
     }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
