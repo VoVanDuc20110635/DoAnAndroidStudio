@@ -24,8 +24,9 @@ public class OrderAPIController {
     CartItemService cartItemService;
     @Autowired
     CartService cartService;
+
     @GetMapping("/findByUserId/{id}")
-    public ResponseEntity<?> getOrderByUserId(@PathVariable int id){
+    public ResponseEntity<?> getOrderByUserId(@PathVariable int id) {
         List<Order> listOrder = orderService.getOrderByUserId(id);
         if (listOrder == null) {
             String message = "Order not found!";
@@ -59,7 +60,7 @@ public class OrderAPIController {
 
     }
 
-//    @PostMapping("/placeOrder")
+    //    @PostMapping("/placeOrder")
 //    public ResponseEntity<?> placeOrder(@RequestParam int userId,
 //                                        @RequestParam String phone,
 //                                        @RequestParam String email,
@@ -81,33 +82,72 @@ public class OrderAPIController {
 //
 //    }
 //
-@PostMapping("/placeOrder")
-public ResponseEntity<?> placeOrder(@RequestParam int userId,
-                                    @RequestParam String phone,
-                                    @RequestParam String email,
-                                    @RequestParam String address,
-                                    @RequestParam String city,
-                                    @RequestParam int zip,
-                                    @RequestParam int paymentId) {
-    User user = userService.getByUserId(userId);
-    if (user != null) {
-        Cart cart = cartService.getCartByUserId(user.getId());
-        if (cart == null) {
-            return new ResponseEntity<>("Cart ko hop le!", HttpStatus.BAD_REQUEST);
+    @PostMapping("/placeOrder")
+    public ResponseEntity<?> placeOrder(@RequestParam int userId,
+                                        @RequestParam String phone,
+                                        @RequestParam String email,
+                                        @RequestParam String address,
+                                        @RequestParam String city,
+                                        @RequestParam int zip,
+                                        @RequestParam int paymentId) {
+        User user = userService.getByUserId(userId);
+        if (user != null) {
+            Cart cart = cartService.getCartByUserId(user.getId());
+            if (cart == null) {
+                return new ResponseEntity<>("Cart ko hop le!", HttpStatus.BAD_REQUEST);
+            }
+            List<CartItem> cartItemList = cart.getCartItemList();
+            PaymentMethod payment = paymentMethodService.getMethodById(paymentId);
+
+            Order order = orderService.placeOrder(user, phone, email, address, city, zip, payment,
+                    cartItemList);
+            cartService.removeAllProductInCar(cart);
+
+            return new ResponseEntity<>("Đặt hàng thành công " + order.getId(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Dat hang khong thanh cong!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        List<CartItem> cartItemList = cart.getCartItemList();
-        PaymentMethod payment = paymentMethodService.getMethodById(paymentId);
 
-        Order order = orderService.placeOrder(user, phone, email, address, city, zip, payment,
-                cartItemList);
-        cartService.removeAllProductInCar(cart);
+    }
+    @PostMapping("/changestatusorder")
+    public ResponseEntity<?> changeStatusOrder(@RequestParam int orderId,
+                                               @RequestParam int status){
+        try{
+        Order order=orderService.getOrderById(orderId);
+        order.setStatus(status);
+        orderService.updatess(order);
+        String responseapp="";
+        switch (status){
+            case 1:
+                responseapp="Hàng đang đợi duyệt";
+                break;
+            case 2:
+                responseapp="Hàng đang chờ shipper lấy";
+                break;
+            case 3:
+                responseapp="Hàng đang được chuyển đi";
+                break;
+            case 4:
+                responseapp="Hàng đã nhận";
+                break;
+            case 5:
+                responseapp="Hàng hàng đang hoàn trả";
+                break;
+            case 6:
+                responseapp="Hàng đã bị hủy";
+                break;
+            default:
+                responseapp="Hàng bị chìm";
+                break;
+        }
+        return new ResponseEntity<>(responseapp,HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("Lỗi đã xảy ra "+ e.toString(),HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>("Đặt hàng thành công " + order.getId(), HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>("Dat hang khong thanh cong!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-}
 }
 
 

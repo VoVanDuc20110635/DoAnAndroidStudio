@@ -105,6 +105,14 @@ public class OrderService {
 //        newOrder.setZip(order.getZip());
         orderRepository.save(newOrder);
     }
+    public void updatess(Order order) {
+
+//        newOrder.setPhoneNumber(order.getPhoneNumber());
+//        newOrder.setAddress(order.getAddress());
+//        newOrder.setCity(order.getCity());
+//        newOrder.setZip(order.getZip());
+        orderRepository.save(order);
+    }
 
     @Transactional
     public void delete(int id) {
@@ -214,5 +222,6 @@ public class OrderService {
             productService.save(product);
         }
     }
+
 
 }
