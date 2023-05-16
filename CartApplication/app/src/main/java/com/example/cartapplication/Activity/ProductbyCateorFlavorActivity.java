@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.CartProductAdapter;
@@ -79,7 +76,7 @@ public class ProductbyCateorFlavorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productby_cateor_flavor);
         //
-        textView = findViewById(R.id.textName);
+        textView = findViewById(R.id.qltk);
         textView.setText(getIntent().getStringExtra("name"));
         String corf = getIntent().getStringExtra("CorF").toString();
         //Toast.makeText(this, corf, Toast.LENGTH_LONG).show();

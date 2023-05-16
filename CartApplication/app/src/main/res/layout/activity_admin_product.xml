@@ -37,40 +37,27 @@
                 android:src="@drawable/coffee_icon" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="279dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="FILTRO COFFEE"
+                    android:text="FILTRO COFFEE PRODUCT"
                     android:textColor="#603913"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     android:typeface="serif" />
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Chào mừng"
-                    android:textAlignment="center"
-                    android:textColor="#603913"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/qltk"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center|fill_vertical"
-                    android:text="not found 404"
-                    android:textAlignment="textEnd"
-                    android:textColor="#603913"
-                    android:textSize="16sp"
-                    tools:ignore="ExtraText" />
+                <Button
+                    android:id="@+id/addproductbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="51dp"
+                    android:background="#A8670303"
+                    android:padding="8dp"
+                    android:text="Thêm sản phẩm tại đây"
+                    android:textColor="#FFFFFF" />
 
                 <!-- Empty view -->
 
@@ -146,58 +133,5 @@
             android:visibility="gone" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:elevation="10dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cartbutton" />
-
-    <ImageView
-        android:id="@+id/popupcate"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:text="Button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/listicon" />
-
-    <ImageView
-        android:id="@+id/showmorebutton"
-        android:soundEffectsEnabled="true"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:layout_toStartOf="@+id/popupcate"
-        android:layout_toEndOf="@+id/imageView3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/uparrow" />
-
-    <ImageView
-        android:id="@+id/profilebutton"
-        android:layout_width="84dp"
-
-        android:layout_height="84dp"
-
-        android:layout_alignParentBottom="true"
-        android:elevation="10dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/popupcate"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:srcCompat="@drawable/profilebutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
