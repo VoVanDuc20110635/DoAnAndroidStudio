@@ -150,7 +150,9 @@ public class AccountService {
         accountRepository.save(newAccount);
     }
 
-
+    public void updateRole(Account account){
+        accountRepository.save(account);
+    }
     public void delete(int id) {
         accountRepository.deleteById(id);
     }

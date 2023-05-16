@@ -1,8 +1,10 @@
 package com.data.filtro.api;
 
+import com.data.filtro.model.Account;
 import com.data.filtro.model.Cart;
 import com.data.filtro.model.ErrorResponse;
 import com.data.filtro.model.User;
+import com.data.filtro.service.AccountService;
 import com.data.filtro.service.CartService;
 import com.data.filtro.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class UserAPIController {
 
     @Autowired
     CartService cartService;
+    @Autowired
+    private AccountService accountService;
 
 
     @GetMapping("/find/{id}")
@@ -70,6 +74,22 @@ public class UserAPIController {
             user.setEmail(email);
             user.setPhoneNumber(phonenumber);
             userService.update(user);
+            return new ResponseEntity<>("Đã cập nhật user", HttpStatus.OK);
+        }
+        catch (NoSuchElementException ex){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+    }
+    @PostMapping("/editRole")
+    public ResponseEntity<?> editUserInfo(@RequestParam int userId,
+                                          @RequestParam int role){
+        try{
+            User user = userService.getByUserId(userId);
+            Account account = user.getAccount();
+            account.setRoleNumber(role);
+            accountService.updateRole(account);
+
             return new ResponseEntity<>("Đã cập nhật user", HttpStatus.OK);
         }
         catch (NoSuchElementException ex){
