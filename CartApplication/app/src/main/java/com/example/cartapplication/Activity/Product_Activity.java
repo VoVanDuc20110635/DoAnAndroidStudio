@@ -271,7 +271,7 @@ public class Product_Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(productAdapter);
         textName = findViewById(R.id.qltk);
-        profileButton=findViewById(R.id.profilebutton);
+        profileButton=findViewById(R.id.profile_buttonadmin);
         
         LoadData();
         // Load dữ liệu từ JSON và cập nhật Adapter

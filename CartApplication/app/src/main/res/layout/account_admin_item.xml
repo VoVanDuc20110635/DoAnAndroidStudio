@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/backgrounduser"
     android:padding="8dp">
 
     <TextView
@@ -11,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tên người dùng"
+        android:textColor="#FFFF"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email"
+        android:textColor="#fffF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_user" />
 
@@ -28,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dạng tài khoản"
+        android:textColor="#fffF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_user" />
 

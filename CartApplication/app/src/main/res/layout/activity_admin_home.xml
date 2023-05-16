@@ -91,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:orientation="vertical"
+            android:padding="8dp"
             android:scrollbars="vertical">
 
             <LinearLayout
@@ -110,10 +111,10 @@
                     android:id="@+id/qltkbtnadmin"
                     android:layout_width="match_parent"
 
+                    android:layout_height="51dp"
                     android:text="Quản lý tài khoản"
                     android:textColor="#510101"
-                    android:textSize="34sp"
-                    android:layout_height="51dp"/>
+                    android:textSize="34sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -133,10 +134,10 @@
                     android:id="@+id/qlspbtnadmin"
                     android:layout_width="match_parent"
 
+                    android:layout_height="51dp"
                     android:text="Quản lý sản phẩm"
                     android:textColor="#510101"
-                    android:textSize="34sp"
-                    android:layout_height="51dp"/>
+                    android:textSize="34sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -156,10 +157,10 @@
                     android:id="@+id/qldhbtnadmin"
                     android:layout_width="match_parent"
 
+                    android:layout_height="51dp"
                     android:text="Quản lý đơn hàng"
                     android:textColor="#510101"
-                    android:textSize="34sp"
-                    android:layout_height="51dp"/>
+                    android:textSize="34sp" />
             </LinearLayout>
 
 
@@ -168,28 +169,14 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/showmorebutton"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:layout_toStartOf="@+id/popupcate"
-        android:layout_toEndOf="@+id/imageView3"
-        android:soundEffectsEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/uparrow" />
-
-    <ImageView
-        android:id="@+id/profilebutton"
+        android:id="@+id/profile_buttonadmin"
         android:layout_width="84dp"
 
         android:layout_height="84dp"
 
         android:layout_alignParentBottom="true"
         android:elevation="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/profilebutton" />

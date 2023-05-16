@@ -46,6 +46,10 @@ public class UserActivity extends AppCompatActivity {
             dangxuatButton = findViewById(R.id.button_dangxuat);
             backButton = findViewById(R.id.backButtonUser);
 
+            if (user.getAccount().getRoleNumber() == 1){
+                historyButton.setVisibility(View.GONE);
+            }
+
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

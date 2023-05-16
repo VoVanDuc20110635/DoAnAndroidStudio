@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".HistoryOrderActivity"
+            android:name=".Activity.admin.HistoryOrderActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.admin.AddNewProductActivity"

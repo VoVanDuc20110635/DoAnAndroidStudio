@@ -121,13 +121,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@android:drawable/editbox_background_normal"
         android:gravity="center|left"
         android:text="Role"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#5A0701"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_phone_number" />
 
@@ -159,5 +158,30 @@
         android:text="Change"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_phone_number" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/user_phone_number">
+
+        <RadioButton
+            android:id="@+id/Customer"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:checked="true"
+            android:shadowColor="#FFFFFF"
+            android:text="Customer"
+            android:textColor="#FFFF"
+            android:textColorHint="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/shipper"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:text="Shipper"
+            android:textColor="#FFFF" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

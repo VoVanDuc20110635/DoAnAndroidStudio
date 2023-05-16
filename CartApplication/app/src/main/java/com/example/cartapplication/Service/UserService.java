@@ -2,6 +2,8 @@ package com.example.cartapplication.Service;
 
 import com.example.cartapplication.model.User;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -21,4 +23,11 @@ public interface UserService {
                                   @Query("zipcode") int zipcode,
                                   @Query("email") String email,
                                   @Query("phonenumber") String phonenumber);
+
+    @GET("api/user/find/getAll")
+        Call<List<User>> getAllAccount();
+
+    @POST("api/user/editRole")
+    Call<ResponseBody> editRole(@Query("userId") int userId,
+                                @Query("role") int role);
 }

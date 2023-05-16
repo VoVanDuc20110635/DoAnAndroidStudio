@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cartapplication.APIClient.ApiClient;
+import com.example.cartapplication.Activity.admin.AdminHomeActivity;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.AccountService;
 import com.example.cartapplication.Service.CartService;
@@ -295,13 +296,24 @@ public class LoginActivity extends AppCompatActivity {
             if (thisuser.getId() == 0) {
                 Toast.makeText(LoginActivity.this,"Sai tài khoản/mật khẩu",Toast.LENGTH_SHORT).show();
             } else {
-                Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("account", (Serializable) account);
-                bundle.putSerializable("user", (Serializable) thisuser);
-                bundle.putSerializable("User_id", account.getId());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(thisuser.getAccount().getRoleNumber() == 1){
+                    Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("account", (Serializable) account);
+                    bundle.putSerializable("user", (Serializable) thisuser);
+                    bundle.putSerializable("User_id", account.getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(LoginActivity.this, Product_Activity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("account", (Serializable) account);
+                    bundle.putSerializable("user", (Serializable) thisuser);
+                    bundle.putSerializable("User_id", account.getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         }
     }

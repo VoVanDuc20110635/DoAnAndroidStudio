@@ -186,7 +186,7 @@
         app:srcCompat="@drawable/uparrow" />
 
     <ImageView
-        android:id="@+id/profilebutton"
+        android:id="@+id/profile_buttonadmin"
         android:layout_width="84dp"
 
         android:layout_height="84dp"
