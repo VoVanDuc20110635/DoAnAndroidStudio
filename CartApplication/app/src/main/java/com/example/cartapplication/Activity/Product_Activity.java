@@ -32,6 +32,7 @@ import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.CartProductAdapter;
 import com.example.cartapplication.Adapter.CategoryAdapter;
 import com.example.cartapplication.Adapter.FlavorAdapter;
+import com.example.cartapplication.Adapter.FlavorSpinnerAdapter;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.CategoryService;
 import com.example.cartapplication.Service.FlavorService;

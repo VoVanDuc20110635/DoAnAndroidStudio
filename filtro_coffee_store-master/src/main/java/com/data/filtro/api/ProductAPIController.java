@@ -1,7 +1,10 @@
 package com.data.filtro.api;
 
+import com.data.filtro.model.Category;
 import com.data.filtro.model.ErrorResponse;
 import com.data.filtro.model.Product;
+import com.data.filtro.service.CategoryService;
+import com.data.filtro.service.FlavorService;
 import com.data.filtro.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,6 +26,10 @@ public class ProductAPIController {
 
     @Autowired
     ProductService productService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    FlavorService flavorService;
 
     @GetMapping("/getProductList")
     public ResponseEntity<List<Product>> getProductList() {
@@ -51,23 +56,56 @@ public class ProductAPIController {
     @GetMapping("/getbycate/{id}")
     public ResponseEntity<List<Product>> getProductListbycate(@PathVariable int id) {
 
-        Pageable pageable=Pageable.unpaged();
-        Page<Product> productList = productService.getProductByCategory(id,pageable);
+        Pageable pageable = Pageable.unpaged();
+        Page<Product> productList = productService.getProductByCategory(id, pageable);
         productList.forEach(s -> log.info(s.getProductName()));
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(productList.getContent(), HttpStatus.OK);
     }
+
     @GetMapping("/getbyflavor/{id}")
     public ResponseEntity<List<Product>> getProductListbyflavor(@PathVariable int id) {
 
-        Pageable pageable=Pageable.unpaged();
-        Page<Product> productList = productService.getProductsByFlavorId(id,pageable);
+        Pageable pageable = Pageable.unpaged();
+        Page<Product> productList = productService.getProductsByFlavorId(id, pageable);
         productList.forEach(s -> log.info(s.getProductName()));
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(productList.getContent(), HttpStatus.OK);
+    }
+
+    @PostMapping("/addnewproduct")
+    public ResponseEntity<?> addnewproduct(@RequestParam String nameproduct,
+                                           @RequestParam int soluong,
+                                           @RequestParam int price,
+                                           @RequestParam int cateId,
+                                           @RequestParam int flavorId,
+                                           @RequestParam String des,
+                                           @RequestParam String image
+
+    ) {
+        try {
+            Date now = new Date(System.currentTimeMillis());
+
+            Product product = new Product();
+            product.setCreatedDate(now);
+            product.setProductName(nameproduct);
+            product.setQuantity(soluong);
+            product.setPrice(price);
+            product.setCategory(categoryService.getCategoryById(cateId));
+            product.setFlavor(flavorService.getFlavorById(flavorId));
+            product.setDescription(des);
+            product.setImage(image);
+            productService.save(product);
+            return new ResponseEntity<>("Đã thêm sản phẩm vào kho", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Xảy ra lỗi" + e.toString(), HttpStatus.OK);
+
+        }
+
+
     }
 }

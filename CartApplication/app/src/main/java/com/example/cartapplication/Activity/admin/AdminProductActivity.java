@@ -4,43 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.example.cartapplication.APIClient.ApiClient;
-import com.example.cartapplication.Activity.CartActivity;
-import com.example.cartapplication.Activity.Product_Activity;
-import com.example.cartapplication.Activity.UserActivity;
-import com.example.cartapplication.Adapter.CartProductAdapter;
 import com.example.cartapplication.Adapter.CategoryAdapter;
 import com.example.cartapplication.Adapter.FlavorAdapter;
+import com.example.cartapplication.Adapter.FlavorSpinnerAdapter;
 import com.example.cartapplication.Adapter.ProductAdminAdapter;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.CategoryService;
 import com.example.cartapplication.Service.FlavorService;
 import com.example.cartapplication.Service.ProductService;
-import com.example.cartapplication.model.Account;
-import com.example.cartapplication.model.CartItem;
 import com.example.cartapplication.model.Category;
 import com.example.cartapplication.model.Flavor;
 import com.example.cartapplication.model.Product;
-import com.example.cartapplication.model.User;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,6 +51,7 @@ public class AdminProductActivity extends AppCompatActivity {
     private int currentImageIndex=-1;
     private View popUpView;
     private ImageView backbutton;
+    private Button addproduct;
 
 
     private void loadProducts() {
@@ -127,15 +117,16 @@ public class AdminProductActivity extends AppCompatActivity {
 
         // Load dữ liệu từ JSON và cập nhật Adapter
         loadProducts();
-        // Khởi tạo các view
-        //imageView = findViewById(R.id.imageView);
 
+        addproduct= findViewById(R.id.addproductbtn);
+        addproduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(AdminProductActivity.this,AddNewProductActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        // Lấy dữ liệu user từ API
-//        getUserData();
-        // Khởi tạo các view
-
-        // Xử lý sự kiện khi người dùng nhấn vào ImageView3
 
 
 
@@ -252,13 +243,7 @@ public class AdminProductActivity extends AppCompatActivity {
             }
         });
         //cửa số pop up
-        popUpView = getLayoutInflater().inflate(R.layout.popup_layout, null);
-        PopupWindow popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popupWindow.setOutsideTouchable(true);
+
 //        closePopupButton=findViewById(R.id.closepopup);
 //        //checkPopupWindowStatus(popupWindow);
 //        closePopupButton = findViewById(R.id.closepopup);
@@ -296,9 +281,7 @@ public class AdminProductActivity extends AppCompatActivity {
                 // Xử lý danh sách category ở đây
                 //Tạo adaptor cho cate
                 CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList);
-                RecyclerView catelist = popUpView.findViewById(R.id.catelist);
-                catelist.setLayoutManager(new LinearLayoutManager(AdminProductActivity.this));
-                catelist.setAdapter(categoryAdapter);
+
             }
 
             @Override
@@ -315,9 +298,9 @@ public class AdminProductActivity extends AppCompatActivity {
                 // Xử lý danh sách category ở đây
                 //Tạo adaptor cho cate
                 FlavorAdapter flavorAdapter = new FlavorAdapter(flavorlist);
-                RecyclerView flavorview = popUpView.findViewById(R.id.flavorlist);
-                flavorview.setLayoutManager(new LinearLayoutManager(AdminProductActivity.this));
-                flavorview.setAdapter(flavorAdapter);
+                //RecyclerView flavorview = popUpView.findViewById(R.id.flavorlist);
+                //flavorview.setLayoutManager(new LinearLayoutManager(AdminProductActivity.this));
+                //flavorview.setAdapter(flavorAdapter);
             }
 
             @Override
