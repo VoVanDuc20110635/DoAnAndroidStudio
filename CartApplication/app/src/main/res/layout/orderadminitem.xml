@@ -1,8 +1,9 @@
 <!-- item_order.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#5E020202"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -74,7 +75,9 @@
             android:layout_weight="1"
             android:background="#8A65CD6A"
             android:text="Duyệt"
-            android:textColor="#2C8F02" />
+            android:textColor="#2C8F02"
+            android:visibility="gone"
+            tools:visibility="gone" />
 
         <Button
             android:id="@+id/cancel_btn"
@@ -83,7 +86,9 @@
             android:layout_weight="1"
             android:background="#97D86E6E"
             android:text="Hủy"
-            android:textColor="#E80000" />
+            android:textColor="#E80000"
+            android:visibility="gone"
+            tools:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

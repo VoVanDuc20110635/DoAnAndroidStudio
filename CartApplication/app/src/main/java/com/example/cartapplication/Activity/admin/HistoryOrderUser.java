@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Adapter.OrderAdapter;
@@ -34,6 +35,7 @@ public class HistoryOrderUser extends AppCompatActivity {
     private OrderAdminItemAdapter mAdapter;
     private List<Order> mOrderList;
     private Button waitorder, deliveryorder, finishorder, cancelorder;
+    private ImageView backbutton;
 
 
     private void filter(int type, int type2){
@@ -58,6 +60,14 @@ public class HistoryOrderUser extends AppCompatActivity {
         deliveryorder = findViewById(R.id.deliveryorder);
         finishorder = findViewById(R.id.finishorder);
         cancelorder = findViewById(R.id.cancelorder);
+        backbutton=findViewById(R.id.back_button);
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         waitorder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,10 +128,10 @@ public class HistoryOrderUser extends AppCompatActivity {
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                 if(response.isSuccessful()){
                     mOrderList = response.body();
-                    Log.e("dc", response.body().toString());
-                    mAdapter = new OrderAdminItemAdapter(mOrderList,HistoryOrderUser.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.setLayoutManager(new LinearLayoutManager(HistoryOrderUser.this));
+                    //Log.e("dc", response.body().toString());
+                    //mAdapter = new OrderAdminItemAdapter(mOrderList,HistoryOrderUser.this);
+                    //mRecyclerView.setAdapter(mAdapter);
+                    //mRecyclerView.setLayoutManager(new LinearLayoutManager(HistoryOrderUser.this));
                 }
             }
 

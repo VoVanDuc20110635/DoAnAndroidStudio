@@ -1,25 +1,39 @@
 package com.example.cartapplication.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.OrderService;
 import com.example.cartapplication.model.Order;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAdapter.OrderViewHolder> {
 
     private List<Order> mOrderList;
 
     private Context context;
+    private Retrofit retrofit;
+    private OrderService orderService;
 
     public OrderAdminItemAdapter(List<Order> orderList, Context context1) {
         mOrderList = orderList;
@@ -45,12 +59,61 @@ public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAd
         holder.phoneNumberTextView.setText("Phone Number: " + order.getPhoneNumber());
         holder.totalTextView.setText("Total: " + order.getTotal());
         holder.paymentMethodTextView.setText("Payment Method: " + order.getPaymentMethod().getName());
-        holder.statusTextView.setText("Status: " + order.getStatus());
+        switch (order.getStatus()) {
+            case 1:
+                holder.statusTextView.setText("Chờ xác nhận...");
+                holder.allowButton.setVisibility(View.VISIBLE);
+                holder.cancelButton.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                holder.statusTextView.setText("Chờ người vận chuyển...");
+                break;
+            case 3:
+                holder.statusTextView.setText("Đang chuyển...");
+                break;
+            case 4:
+                holder.statusTextView.setText("Đã giao");
+                break;
+            case 5:
+                holder.statusTextView.setText("Đã hủy");
+                break;
+            case 6:
+                holder.statusTextView.setText("Đã hủy");
+                break;
+            default:
+                holder.statusTextView.setText("Chờ xác nhận...");
+        }
+        //holder.statusTextView.setText("Status: " + order.getStatus());
 
         holder.allowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Xử lý sự kiện khi người dùng nhấn nút "Duyệt"
+                retrofit= ApiClient.getApiClient();
+                orderService=retrofit.create(OrderService.class);
+                Call<ResponseBody> call=orderService.setstatus(order.getId(), 2);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            try {
+                                Toast.makeText(context,response.body().string(),Toast.LENGTH_SHORT).show();
+                                Intent intent=((Activity)context).getIntent();
+                                intent.putExtra("User",order.getUser());
+                                ((Activity) context).recreate();
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
 
@@ -58,6 +121,30 @@ public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAd
             @Override
             public void onClick(View view) {
                 // TODO: Xử lý sự kiện khi người dùng nhấn nút "Hủy"
+                retrofit= ApiClient.getApiClient();
+                orderService=retrofit.create(OrderService.class);
+                Call<ResponseBody> call=orderService.setstatus(order.getId(), 6);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            try {
+                                Toast.makeText(context,response.body().string(),Toast.LENGTH_SHORT).show();
+                                Intent intent=((Activity)context).getIntent();
+                                intent.putExtra("User",order.getUser());
+                                ((Activity) context).recreate();
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
@@ -92,6 +179,7 @@ public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAd
             statusTextView = itemView.findViewById(R.id.statusorder);
             allowButton = itemView.findViewById(R.id.allowbtn);
             cancelButton = itemView.findViewById(R.id.cancel_btn);
+
         }
     }
 }
