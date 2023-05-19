@@ -17,6 +17,9 @@
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.shipper.OrderDetailShipperActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.admin.HistoryOrderActivity"
             android:exported="false" />
         <activity
@@ -85,6 +88,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.shipper.OrderShiperActivity"
+            android:exported="true"/>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.cartapplication.APIClient.ApiClient;
 import com.example.cartapplication.Activity.admin.AdminHomeActivity;
+import com.example.cartapplication.Activity.shipper.OrderShiperActivity;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.AccountService;
 import com.example.cartapplication.Service.CartService;
@@ -294,10 +295,18 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("cartItemList", cartItemListJson);
 
             if (thisuser.getId() == 0) {
-                Toast.makeText(LoginActivity.this,"Sai tài khoản/mật khẩu",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"",Toast.LENGTH_SHORT).show();
             } else {
                 if(thisuser.getAccount().getRoleNumber() == 1){
                     Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("account", (Serializable) account);
+                    bundle.putSerializable("user", (Serializable) thisuser);
+                    bundle.putSerializable("User_id", account.getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else if(thisuser.getAccount().getRoleNumber() == 2){
+                    Intent intent = new Intent(LoginActivity.this, OrderShiperActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("account", (Serializable) account);
                     bundle.putSerializable("user", (Serializable) thisuser);
