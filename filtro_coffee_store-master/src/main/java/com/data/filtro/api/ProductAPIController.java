@@ -108,4 +108,30 @@ public class ProductAPIController {
 
 
     }
+
+    @PostMapping("/editproduct")
+    public ResponseEntity<?> editproduct(@RequestParam String nameproduct,
+                                           @RequestParam int soluong,
+                                           @RequestParam int price,
+                                           @RequestParam String des,
+                                           @RequestParam int productId,
+                                         @RequestParam int status
+
+    ) {
+        try {
+            Product product = productService.getProductById(productId);
+            product.setProductName(nameproduct);
+            product.setQuantity(soluong);
+            product.setPrice(price);
+            product.setDescription(des);
+            product.setStatus(status);
+            productService.save(product);
+            return new ResponseEntity<>("Đã sửa sản phẩm", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Xảy ra lỗi" + e.toString(), HttpStatus.OK);
+
+        }
+
+
+    }
 }
