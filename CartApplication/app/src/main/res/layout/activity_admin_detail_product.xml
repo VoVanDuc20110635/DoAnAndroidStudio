@@ -1,0 +1,141 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundimage">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/product_name"
+            android:layout_width="320dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Product Name"
+            android:textColorHint="#FFFFFF"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/product_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_image" />
+
+        <EditText
+            android:id="@+id/product_description"
+            android:layout_width="301dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:hint
+                ="Product Description"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/product_name"
+            app:layout_constraintTop_toBottomOf="@+id/product_name" />
+
+        <EditText
+            android:id="@+id/product_price"
+            android:layout_width="154dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:digits="0123456789"
+            android:hint="Product Price"
+            android:inputType="number"
+            android:maxLength="7"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/product_description"
+            app:layout_constraintTop_toBottomOf="@+id/product_description" />
+
+        <EditText
+            android:id="@+id/product_quantity"
+            android:layout_width="152dp"
+            android:layout_height="52dp"
+            android:digits="0123456789"
+            android:hint="Product Quantity"
+            android:inputType="number"
+            android:maxLength="7"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/product_price"
+            app:layout_constraintTop_toBottomOf="@+id/product_price" />
+
+        <TextView
+            android:id="@+id/product_sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Sold"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/product_quantity"
+            app:layout_constraintTop_toBottomOf="@+id/product_quantity" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedback_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingStart="18dp"
+            android:paddingEnd="22dp"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productstatus" />
+
+        <ImageView
+            android:id="@+id/backButtonDetail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/backbuttonwhite" />
+
+        <Spinner
+            android:id="@+id/productstatus"
+            android:layout_width="188dp"
+            android:layout_height="51dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:contentDescription="productstatus"
+            android:hint="Status:"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            app:layout_constraintStart_toStartOf="@+id/product_sold"
+            app:layout_constraintTop_toBottomOf="@+id/product_sold" />
+
+        <Button
+            android:id="@+id/saveproductbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="SAVE"
+            app:layout_constraintStart_toEndOf="@+id/productstatus"
+            app:layout_constraintTop_toTopOf="@+id/productstatus" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

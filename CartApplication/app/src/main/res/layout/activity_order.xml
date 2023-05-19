@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:background="@drawable/backgroundorder">
+
+    <EditText
+        android:id="@+id/address_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#85FB8BEC"
+        android:hint="Address" />
+
+    <EditText
+        android:id="@+id/zip_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#7CFB8BEC"
+        android:hint="Zip Code"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/city_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#81FB8BEC"
+        android:hint="City"
+        app:cardCornerRadius="8dp" />
+
+    <EditText
+        android:id="@+id/phone_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#7EFB8BEC"
+        android:hint="Phone Number"
+        android:inputType="number"
+        app:cardCornerRadius="8dp" />
+
+    <EditText
+        android:id="@+id/email_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#81FB8BEC"
+        android:hint="Email"
+        app:cardCornerRadius="8dp" />
+
+    <TextView
+        android:id="@+id/total_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#80FB8BEC"
+        android:hint="Total"
+        android:textSize="24sp"
+        app:cardCornerRadius="8dp" />
+
+
+    <Spinner
+        android:id="@+id/payment_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="#81FFFFFF"
+        android:contentDescription="paymentMethod" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:orientation="horizontal"
+        android:padding="70dp">
+
+        <Button
+            android:id="@+id/returnButtonOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:text="RETURN" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:text="Confirm" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
