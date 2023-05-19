@@ -29,5 +29,11 @@ public interface ProductService {
                                    @Query("flavorId") int flavorId,
                                    @Query("des") String des,
                                    @Query("image") String image);
-
+    @POST("api/product/editproduct")
+    Call<ResponseBody> editProduct(@Query("nameproduct") String nameproduct,
+                                   @Query("soluong") int soluong,
+                                   @Query("price") int price,
+                                   @Query("des") String des,
+                                   @Query("productId") int productId,
+                                   @Query("status") int status);
 }

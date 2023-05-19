@@ -26,4 +26,7 @@ public interface OrderService {
                                  @Query("paymentId") int paymentId);
     @POST("api/order/changestatusorder")
     Call<ResponseBody>setstatus(@Query("orderId") int orderId,@Query("status") int status);
+
+    @GET("api/order/getAll")
+    Call<List<Order>> getAll();
 }

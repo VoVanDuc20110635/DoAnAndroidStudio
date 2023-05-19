@@ -1,6 +1,7 @@
 package com.example.cartapplication.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cartapplication.Activity.admin.AdminDetailProduct;
 import com.example.cartapplication.R;
 import com.example.cartapplication.model.Product;
 import com.squareup.picasso.Picasso;
@@ -39,6 +41,15 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         holder.productName.setText(product.getProductName());
         holder.productPrice.setText("Price: " + product.getPrice() + " đồng");
         Picasso.get().load(product.getImage()).into(holder.productImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AdminDetailProduct.class);
+                intent.putExtra("Product", product);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

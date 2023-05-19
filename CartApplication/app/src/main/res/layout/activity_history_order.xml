@@ -16,28 +16,7 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-        <EditText
-            android:id="@+id/textSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#92A8A371"
-            android:ems="10"
-            android:hint="Nhập tên"
-            android:inputType="textPersonName"
-            android:textColor="#603913" />
-
-        <ImageView
-            android:id="@+id/searchbutton"
-            android:layout_width="25dp"
-            android:layout_height="51dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/searchbutton" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textView6"/>
 
     <TextView
         android:id="@+id/textView6"
