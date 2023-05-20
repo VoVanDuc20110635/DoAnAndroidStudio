@@ -41,6 +41,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.totalTextView.setText("Total: " + order.getTotal());
         holder.statusTextView.setText("Status: " + order.getStatus());
         holder.paymentMethodTextView.setText("Payment Method: " + order.getPaymentMethod().getName());
+
     }
 
     @Override

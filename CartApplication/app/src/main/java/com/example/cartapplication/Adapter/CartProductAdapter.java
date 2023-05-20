@@ -62,20 +62,23 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Product product = productList.get(position);
         int id= product.getId();
-
+        sharedPreferences = context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String userJson = sharedPreferences.getString("user", "");
+        User user = gson.fromJson(userJson, User.class);
         //String thutu= String.valueOf(position);
         holder.productNameTextView.setText(product.getProductName());
         holder.priceTextView.setText(String.format("%,.0f đồng", product.getPrice()));
         //holder.priceTextView.setText(thutu);
         //holder.quantityTextView.setText("Số lượng: " + product.getQuantity());
         //holder.buybuton.setText(String.format("%.0f",product.getPrice()-(product.getDiscount()*product.getPrice()/100)));
+        if (user==null){
+            holder.buybuton.setVisibility(View.GONE);
+        }
         holder.buybuton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences = context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-                Gson gson = new Gson();
-                String userJson = sharedPreferences.getString("user", "");
-                User user = gson.fromJson(userJson, User.class);
+
 //                Log.e("dc",user.getName());
 
                 // Khởi tạo Retrofit
@@ -114,8 +117,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             }
         Picasso.get().load(product.getImage()).into(holder.productImageView);
 
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        if (user!=null)
+        {holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailProductActivity.class);
@@ -123,7 +126,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 intent.putExtra("FromCart",false);
                 context.startActivity(intent);
             }
-        });
+        });}
     }
 
     @Override

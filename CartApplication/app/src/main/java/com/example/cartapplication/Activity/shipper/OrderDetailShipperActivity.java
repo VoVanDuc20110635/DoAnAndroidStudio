@@ -61,13 +61,13 @@ public class OrderDetailShipperActivity extends AppCompatActivity {
         Intent intent = getIntent();
         OrderShipper orderShipper = (OrderShipper) intent.getSerializableExtra("OrderShipper");
         List<OrderDetail> orderDetailList = orderShipper.getOrderDetails();
-        Log.e("vao duoc onCreate OrderdetailShipper", String.valueOf( orderShipper.getId()));
-        Log.e("ngay dat hang:", String.valueOf(orderShipper.getOrderDate()));
-        Log.e("ten khach hang", orderShipper.getUser().getName());
-        Log.e("Dia chi giao hang: ", orderShipper.getAddress());
-        Log.e("So dien thoai: ", orderShipper.getPhoneNumber());
-        Log.e("Tong tien: ",String.valueOf( orderShipper.getTotal()));
-        Log.e("Phuong thuc thanh toan", orderShipper.getPaymentMethod().getName());
+//        Log.e("vao duoc onCreate OrderdetailShipper", String.valueOf( orderShipper.getId()));
+//        Log.e("ngay dat hang:", String.valueOf(orderShipper.getOrderDate()));
+//        Log.e("ten khach hang", orderShipper.getUser().getName());
+//        Log.e("Dia chi giao hang: ", orderShipper.getAddress());
+//        Log.e("So dien thoai: ", orderShipper.getPhoneNumber());
+//        Log.e("Tong tien: ",String.valueOf( orderShipper.getTotal()));
+//        Log.e("Phuong thuc thanh toan", orderShipper.getPaymentMethod().getName());
         loadDataFromPreviousActity(orderShipper);
         Log.e("thong tin orderDEtaillist", orderDetailList.get(0).getProduct().getProductName());
         loadProductofOrder(orderDetailList);
@@ -80,6 +80,10 @@ public class OrderDetailShipperActivity extends AppCompatActivity {
             btn_YeuCauGiaoHang.setEnabled(false);
             btn_XacNhanGiaoHangThanhCong.setVisibility(View.VISIBLE);
             btn_XacNhanGiaoHangThanhCong.setEnabled(true);
+        }
+        if(thisUser.getAccount().getStatus()!=2){
+            btn_XacNhanGiaoHangThanhCong.setVisibility(View.GONE);
+            btn_YeuCauGiaoHang.setVisibility(View.GONE);
         }
         btn_YeuCauGiaoHang.setOnClickListener(new View.OnClickListener() {
             @Override
