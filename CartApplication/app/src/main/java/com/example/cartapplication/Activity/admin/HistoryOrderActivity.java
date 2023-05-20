@@ -118,7 +118,6 @@ public class HistoryOrderActivity extends AppCompatActivity {
         // và cập nhật Adapter
         Retrofit retrofit = ApiClient.getApiClient();
         OrderService orderService = retrofit.create(OrderService.class);
-
         Call<List<Order>> call = orderService.getAll();
         call.enqueue(new Callback<List<Order>>() {
             @Override

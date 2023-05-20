@@ -198,7 +198,7 @@ public class DetailProductActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String userJson = sharedPreferences.getString("user", "");
         User user = gson.fromJson(userJson, User.class);
-        Log.e("dc",user.getName());
+//        Log.e("dc",user.getName());
 
         // Khởi tạo Retrofit
 //        Retrofit retrofit = ApiClient.getApiClient();

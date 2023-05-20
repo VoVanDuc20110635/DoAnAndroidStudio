@@ -78,6 +78,8 @@ public class Product_Activity extends AppCompatActivity {
     private ImageView profileButton;
 //    private User thisuser;
 
+    private int daDangNhap;
+
 
 
     private SharedPreferences sharedPreferences;
@@ -273,8 +275,33 @@ public class Product_Activity extends AppCompatActivity {
         recyclerView.setAdapter(productAdapter);
         textName = findViewById(R.id.qltk);
         profileButton=findViewById(R.id.profile_buttonadmin);
-        
+        sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("user") == false){
+            daDangNhap = 0;
+            Log.e("daDanhNhap bien dau tien", String.valueOf(daDangNhap));
+        }
+        else{
+            daDangNhap = 1;
+            Log.e("daDanhNhap bien dau tien", String.valueOf(daDangNhap));
+        }
         LoadData();
+        Log.e("daDanhNhap", String.valueOf(daDangNhap));
+        if (daDangNhap == 0){
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.width = 200;
+
+            textName.setLayoutParams(layoutParams);
+            textName.setBackgroundColor(Color.GREEN);
+            textName.setTextColor(Color.BLACK);
+            textName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(Product_Activity.this, LoginActivity.class);
+//                    intent.putExtra("user", thisUser); // Truyền vào user
+                    startActivity(intent);
+                }
+            });
+        }
         // Load dữ liệu từ JSON và cập nhật Adapter
         loadProducts();
         // Khởi tạo các view
@@ -478,86 +505,103 @@ public class Product_Activity extends AppCompatActivity {
         });
 
 
-        //mở cửa sổ pop up bằng nút
-        popupButton = findViewById(R.id.popupcate);
-        popupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            //mở cửa sổ pop up bằng nút
+            popupButton = findViewById(R.id.popupcate);
+            popupButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-                // Hiển thị PopupWindow tại vị trí ImageView
-                popupWindow.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
-                //popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-                //checkPopupWindowStatus(popupWindow);
-            }
-        });
-        emptyView=findViewById(R.id.empty_view);
-        checkEmptyView();
-
-        // Lắng nghe sự kiện thay đổi dữ liệu của adapter
-        productAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                checkEmptyView();
-            }
-        });
-        showMoreButton = findViewById(R.id.showmorebutton);
-
-        SoundPool soundPool = new SoundPool.Builder()
-                .setMaxStreams(10)
-                .build();
-        int soundId = soundPool.load(this, R.raw.bubble3000, 1);
-        showMoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
-                //soundPool.pause(sound3StreamId);
-                //soundPool.autoPause();
-                toggleMoreButtons();
-            }
-        });
-
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Chuyển đến UserActivity và truyền vào user
-
-                intent = new Intent(Product_Activity.this, UserActivity.class);
-                intent.putExtra("user", thisUser); // Truyền vào user
-                startActivity(intent);
-            }
-        });
-        closebutton=popUpView.findViewById(R.id.btnclose);
-        closebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
+                    // Hiển thị PopupWindow tại vị trí ImageView
+                    popupWindow.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
+                    //popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+                    //checkPopupWindowStatus(popupWindow);
                 }
-            }
-        });
+            });
+            emptyView = findViewById(R.id.empty_view);
+            checkEmptyView();
+
+            // Lắng nghe sự kiện thay đổi dữ liệu của adapter
+            productAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                    checkEmptyView();
+                }
+            });
+            showMoreButton = findViewById(R.id.showmorebutton);
+
+            SoundPool soundPool = new SoundPool.Builder()
+                    .setMaxStreams(10)
+                    .build();
+            int soundId = soundPool.load(this, R.raw.bubble3000, 1);
+            showMoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (daDangNhap == 1) {
+                    soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+                    //soundPool.pause(sound3StreamId);
+                    //soundPool.autoPause();
+                    toggleMoreButtons();
+                    } else{
+                        Toast.makeText(Product_Activity.this, "Bạn phải đăng nhập để thực hiện chức năng này", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(Product_Activity.this, LoginActivity.class);
+//            intent.putExtra("user", thisUser); // Truyền vào user
+                        startActivity(intent);
+                    }
+                }
+            });
+
+            profileButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Chuyển đến UserActivity và truyền vào user
+
+                    intent = new Intent(Product_Activity.this, UserActivity.class);
+                    intent.putExtra("user", thisUser); // Truyền vào user
+                    startActivity(intent);
+                }
+            });
+            closebutton = popUpView.findViewById(R.id.btnclose);
+            closebutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                }
+            });
+
     }
     private void LoadData(){
         Gson gson = new Gson();
         sharedPreferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
-        String userJson= sharedPreferences.getString("user", "");
-        //Log.e("userJson", userJson);
-        thisUser = gson.fromJson(userJson, User.class);
-        String listCartItemJson = sharedPreferences.getString("cartItemList", "");
-        List<CartItem> listCartItem = gson.fromJson(listCartItemJson,new TypeToken<List<CartItem>>(){}.getType());
-        //Log.e("list cart item", listCartItem.get(0).getProduct().getProductName());
-        String accoutnJson = sharedPreferences.getString("account", "");
-        //Log.e("accoutnJson", accoutnJson);
-        account = gson.fromJson(accoutnJson, Account.class);
+        if (sharedPreferences.contains("user")) {
+            daDangNhap = 1;
+            String userJson = sharedPreferences.getString("user", "");
+            //Log.e("userJson", userJson);
+            thisUser = gson.fromJson(userJson, User.class);
+            String listCartItemJson = sharedPreferences.getString("cartItemList", "");
+            List<CartItem> listCartItem = gson.fromJson(listCartItemJson, new TypeToken<List<CartItem>>() {
+            }.getType());
+            //Log.e("list cart item", listCartItem.get(0).getProduct().getProductName());
+            String accoutnJson = sharedPreferences.getString("account", "");
+            //Log.e("accoutnJson", accoutnJson);
+            account = gson.fromJson(accoutnJson, Account.class);
 
 
-        if (thisUser != null && account != null){
-            //Log.e("thong bao ben Product activity", "ca user va account ton tai " + thisUser.getAddress() + " "
-                   // + thisUser.getName() + " " + account.getId());
-            textName.setText(thisUser.getName());
+            if (thisUser != null && account != null) {
+                //Log.e("thong bao ben Product activity", "ca user va account ton tai " + thisUser.getAddress() + " "
+                // + thisUser.getName() + " " + account.getId());
+                textName.setText(thisUser.getName());
+                Log.e("Thong bao:","my_preferences khong co null");
+            }
+        } else{
+            textName.setText("ĐĂNG NHẬP");
+//            textName.setGravity(Gravity.CENTER);
+            daDangNhap = 0;
+            Log.e("daDanhNhap", String.valueOf(daDangNhap));
         }
-
 
     }
 }
