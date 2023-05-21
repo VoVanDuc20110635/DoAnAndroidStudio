@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,10 +15,14 @@ import java.util.List;
 public class OrderAPIController {
 
 
+
     @Autowired
     OrderService orderService;
     @Autowired
     PaymentMethodService paymentMethodService;
+    @Autowired
+    OrderShipperService orderShipperService;
+
     @Autowired
     UserService userService;
     @Autowired
@@ -34,6 +39,81 @@ public class OrderAPIController {
             return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(listOrder, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByStatusOrder")
+    public ResponseEntity<?> getOrderByStatusOrder(@RequestParam int status, @RequestParam int shipperId){
+        List<Order> listOrder = new ArrayList<>();
+        if (status == 2 || status == 3 || status == 4) {
+            if (status == 2){
+                listOrder = orderService.findOrderByStatusOrder(status);
+                return new ResponseEntity<>(listOrder, HttpStatus.OK);
+            } else {
+                List<OrderShipper> orderShippers = orderShipperService.loadOrdersByOrderShipperAndStatus(shipperId, status);
+                for (OrderShipper orderShipper : orderShippers){
+                    System.out.println(orderShipper.getOrderId() + " " + orderShipper.getUserId() + " " + orderShipper.getStatus());
+                    listOrder.add(orderService.getOrderById(orderShipper.getOrderId()));
+                }
+                return new ResponseEntity<>(listOrder, HttpStatus.OK);
+            }
+        }
+        else {
+            listOrder = null;
+            return new ResponseEntity<>(listOrder, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/updateStatusOrder")
+    public ResponseEntity<?> nhanGiaoDonHangHoacDaGiaoHang(@RequestParam int orderId, @RequestParam int status, @RequestParam int shipperId) {
+        String message;
+        ErrorResponse err;
+        Order order = orderService.getOrderById(orderId);
+        System.out.println("nhan duoc request");
+        try {
+            if (order != null) {
+                if (status == 3) {
+                    order.setStatus(3);
+                    orderService.update(order);
+                    message = "Gửi yêu cầu giao đơn hàng thành công!";
+                    System.out.println(message);
+                    OrderShipper orderShipper = new OrderShipper();
+                    orderShipper.setOrderId(orderId);
+                    orderShipper.setUserId(shipperId);
+                    orderShipper.setStatus(status);
+                    System.out.println(orderShipper.getUserId() + " " + orderShipper.getOrderId()
+                            + " " + orderShipper.getStatus());
+                    orderShipperService.create(orderShipper);
+                    System.out.println("khong them donHangDaGiaoUser vao table duoc");
+                } else if (status == 4){
+                    order.setStatus(4);
+                    orderService.update(order);
+                    OrderShipper orderShipper = orderShipperService.loadOrderShipperByOrderId(orderId);
+                    orderShipper.setStatus(4);
+                    orderShipperService.update(orderShipper);
+                    message = "Đã giao hàng thành công!";
+                    System.out.println(message);
+                } else {
+                    message = "Trạng thái đơn hàng không đúng";
+                    System.out.println(message);
+                    err = new ErrorResponse(message, HttpStatus.OK.value());
+                    return new ResponseEntity<>(err, HttpStatus.OK);
+                }
+                orderService.update(order);
+                orderService.updateSoldByOrderStatus(order);
+
+                err = new ErrorResponse(message, HttpStatus.OK.value());
+                return new ResponseEntity<>(err, HttpStatus.OK);
+            }
+            else {
+                message = "Không nhạn được đơn hàng từ id!";
+                err = new ErrorResponse(message, HttpStatus.OK.value());
+                return new ResponseEntity<>(err, HttpStatus.OK);
+            }
+        } catch (Exception e){
+            message = "Không nhận được API!";
+            err = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/find/{id}")

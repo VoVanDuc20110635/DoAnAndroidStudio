@@ -62,7 +62,8 @@ public class Order implements Serializable {
     private PaymentMethod paymentMethod;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "orderId")
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonManagedReference
     private List<OrderDetail> orderDetails;
 
 }

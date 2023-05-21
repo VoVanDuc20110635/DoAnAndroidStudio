@@ -1,6 +1,7 @@
 package com.data.filtro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class OrderDetail implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "madathang", referencedColumnName = "madathang")
+    @JsonIgnore
     private Order orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)

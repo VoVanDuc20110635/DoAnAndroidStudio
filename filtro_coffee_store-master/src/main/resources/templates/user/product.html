@@ -26,7 +26,7 @@
             <div class="col-12 col-lg-6">
                 <div class="card bg-light mb-3">
                     <div class="card-body d-flex flex-column align-items-center">
-                        <img class="img-fluid" th:src="@{'/upload/product/' + ${product.image}}"
+                        <img class="img-fluid" th:src="@{ ${product.image}}"
                              style="height: 350px;width: 350px;"
                              alt="Product image">
                         <a href="" data-toggle="modal" data-target="#productModal">

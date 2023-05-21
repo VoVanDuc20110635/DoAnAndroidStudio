@@ -45,7 +45,7 @@
                     <tr th:each="product : ${products}">
                         <td th:text="'#' + ${product.id}"></td>
                         <td th:text="${product.productName}">Thomas Hardy</td>
-                        <td><img th:src="@{'/upload/product/'+${product.image}}" alt="?"
+                        <td><img th:src="@{${product.image}}" alt="?"
                                  style="width: 150px;height: 150px;"></td>
                         <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'COMMA')+'đ'}">89
                             Chiaroscuro Rd, Portland, USA

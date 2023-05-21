@@ -141,10 +141,6 @@ public class AccountAPIController {
     }
 
     public void sendMail(String recipentAddress, String validCode) throws MessagingException, UnsupportedEncodingException {
-
-
-
-
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setFrom("contact@ark.com", "Arkadian");

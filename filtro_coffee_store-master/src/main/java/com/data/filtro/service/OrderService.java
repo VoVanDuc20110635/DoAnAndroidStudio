@@ -23,8 +23,8 @@ public class OrderService {
 
     @Autowired
     ProductService productService;
-
-
+    @Autowired
+    OrderShipperService donHangDaGiaoUserService;
     public Order placeOrder(User user, String phone, String email, String address, String city, int zip, PaymentMethod paymentMethod, List<CartItem> cartItemList) {
         Order order = new Order();
         order.setUser(user);
@@ -83,6 +83,8 @@ public class OrderService {
         return orderRepository.findOrderByUserId(id);
     }
 
+    public List<Order> findOrderByStatusOrder (int status){return orderRepository.findOrderByStatusOrder(status);};
+
     public List<Order> getAll() {
         return orderRepository.findAll();
     }
@@ -103,8 +105,11 @@ public class OrderService {
 //        newOrder.setAddress(order.getAddress());
 //        newOrder.setCity(order.getCity());
 //        newOrder.setZip(order.getZip());
+
+
         orderRepository.save(newOrder);
     }
+
     public void updatess(Order order) {
 
 //        newOrder.setPhoneNumber(order.getPhoneNumber());

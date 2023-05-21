@@ -53,7 +53,7 @@
                         <div class="image">
                             <a th:href="@{/product/{id}(id=${product.id})}">
                                 <img
-                                        th:src="@{'/upload/product/' + ${product.image}}"
+                                        th:src="@{${product.image}}"
                                         alt="Product">
                             </a>
                         </div>
@@ -92,7 +92,7 @@
                             <input type="hidden" name="productId" th:value="${product.id}">
                             <input type="hidden" name="quantity" th:value=1>
                             <div class="card">
-                                <img th:src="@{'/upload/product/' + ${product.image}}" class="w-100 img-resize"
+                                <img th:src="@{${product.image}}" class="w-100 img-resize"
                                      alt="Card Image">
                                 <div class="brown-color card-body d-flex flex-column">
                                     <a class="white-hov text-center text-reset"
