@@ -1,6 +1,7 @@
 package com.example.cartapplication.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cartapplication.APIClient.ApiClient;
+import com.example.cartapplication.Activity.shipper.OrderDetailShipperActivity;
 import com.example.cartapplication.R;
+import com.example.cartapplication.Service.OrderService;
 import com.example.cartapplication.model.Order;
+import com.example.cartapplication.model.OrderShipper;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
     private List<Order> orderList;
     private Context context;
+    private OrderShipper orderShipper;
 
     public OrderAdapter(List<Order> orderList, Context context) {
         this.orderList = orderList;
@@ -41,6 +52,34 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.totalTextView.setText("Total: " + order.getTotal());
         holder.statusTextView.setText("Status: " + order.getStatus());
         holder.paymentMethodTextView.setText("Payment Method: " + order.getPaymentMethod().getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Retrofit retrofit = ApiClient.getApiClient();
+                OrderService orderService= retrofit.create(OrderService.class);
+                Call<OrderShipper> call =orderService.findbyId(order.getId());
+                
+                call.enqueue(new Callback<OrderShipper>() {
+                    @Override
+                    public void onResponse(Call<OrderShipper> call, Response<OrderShipper> response) {
+                        if(response.isSuccessful()){
+                            orderShipper=response.body();
+                            Intent intent = new Intent(context, OrderDetailShipperActivity.class);
+                            intent.putExtra("OrderShipper", orderShipper);
+                            context.startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderShipper> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
 
     }
 

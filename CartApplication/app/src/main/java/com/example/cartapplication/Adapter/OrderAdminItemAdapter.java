@@ -14,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cartapplication.APIClient.ApiClient;
+import com.example.cartapplication.Activity.shipper.OrderDetailShipperActivity;
 import com.example.cartapplication.R;
 import com.example.cartapplication.Service.OrderService;
 import com.example.cartapplication.model.Order;
+import com.example.cartapplication.model.OrderShipper;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +36,7 @@ public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAd
     private Context context;
     private Retrofit retrofit;
     private OrderService orderService;
+    private OrderShipper orderShipper;
 
     public OrderAdminItemAdapter(List<Order> orderList, Context context1) {
         mOrderList = orderList;
@@ -145,6 +148,33 @@ public class OrderAdminItemAdapter extends RecyclerView.Adapter<OrderAdminItemAd
 
                     }
                 });
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Retrofit retrofit = ApiClient.getApiClient();
+                OrderService orderService= retrofit.create(OrderService.class);
+                Call<OrderShipper> call =orderService.findbyId(order.getId());
+
+                call.enqueue(new Callback<OrderShipper>() {
+                    @Override
+                    public void onResponse(Call<OrderShipper> call, Response<OrderShipper> response) {
+                        if(response.isSuccessful()){
+                            orderShipper=response.body();
+                            Intent intent = new Intent(context, OrderDetailShipperActivity.class);
+                            intent.putExtra("OrderShipper", orderShipper);
+                            context.startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderShipper> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
     }

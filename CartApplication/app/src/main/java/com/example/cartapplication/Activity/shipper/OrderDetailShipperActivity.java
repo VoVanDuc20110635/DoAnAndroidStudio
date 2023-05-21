@@ -24,6 +24,7 @@ import com.example.cartapplication.model.OrderShipper;
 import com.example.cartapplication.model.User;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,6 +48,7 @@ public class OrderDetailShipperActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private OrderProductAdapter adapter;
+    private List<OrderDetail> orderDetailList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,12 @@ public class OrderDetailShipperActivity extends AppCompatActivity {
         thisUser = gson.fromJson(userJson, User.class);
         Intent intent = getIntent();
         OrderShipper orderShipper = (OrderShipper) intent.getSerializableExtra("OrderShipper");
-        List<OrderDetail> orderDetailList = orderShipper.getOrderDetails();
+        if(orderShipper.getOrderDetails()!=null)
+        {orderDetailList = orderShipper.getOrderDetails();}
+        else
+        {
+            orderDetailList= new ArrayList<>();
+        }
 //        Log.e("vao duoc onCreate OrderdetailShipper", String.valueOf( orderShipper.getId()));
 //        Log.e("ngay dat hang:", String.valueOf(orderShipper.getOrderDate()));
 //        Log.e("ten khach hang", orderShipper.getUser().getName());
@@ -81,7 +88,7 @@ public class OrderDetailShipperActivity extends AppCompatActivity {
             btn_XacNhanGiaoHangThanhCong.setVisibility(View.VISIBLE);
             btn_XacNhanGiaoHangThanhCong.setEnabled(true);
         }
-        if(thisUser.getAccount().getStatus()!=2){
+        if(thisUser.getAccount().getRoleNumber()!=2){
             btn_XacNhanGiaoHangThanhCong.setVisibility(View.GONE);
             btn_YeuCauGiaoHang.setVisibility(View.GONE);
         }

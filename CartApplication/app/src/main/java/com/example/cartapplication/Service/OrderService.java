@@ -1,6 +1,7 @@
 package com.example.cartapplication.Service;
 
 import com.example.cartapplication.model.Order;
+import com.example.cartapplication.model.OrderShipper;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface OrderService {
 
     @GET("api/order/getAll")
     Call<List<Order>> getAll();
+    @GET("api/order/find/{id}")
+    Call<OrderShipper> findbyId(@Path("id") int id);
 }
